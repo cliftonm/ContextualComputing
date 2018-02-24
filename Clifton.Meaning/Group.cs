@@ -21,6 +21,10 @@
 * SOFTWARE.
 */
 
+/* Code Project Open License (CPOL) 1.02
+* https://www.codeproject.com/info/cpol10.aspx
+*/
+
 using System;
 using System.Collections.Generic;
 using System.Linq;

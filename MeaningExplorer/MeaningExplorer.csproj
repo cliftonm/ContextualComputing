@@ -147,7 +147,6 @@
     <Compile Include="Receptors\RouteHelpers.cs" />
     <Compile Include="Renderer.cs" />
     <Compile Include="Semantics\UpdateField.cs" />
-    <Compile Include="WebBrowserHelper.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

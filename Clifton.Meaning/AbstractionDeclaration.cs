@@ -1,6 +1,6 @@
 ﻿/* The MIT License (MIT)
 * 
-* Copyright (c) 2015 Marc Clifton
+* Copyright (c) 2018 Marc Clifton
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -19,6 +19,10 @@
 * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
+*/
+
+/* Code Project Open License (CPOL) 1.02
+* https://www.codeproject.com/info/cpol10.aspx
 */
 
 using System;
