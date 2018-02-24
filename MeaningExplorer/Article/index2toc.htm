@@ -8,7 +8,7 @@
 
 <body>
 
-<p>Contextual Data</p>
+<h1><a name="ContextualDataExplorer0">Contextual Data Explorer</a></h1>
 <p>A prototype that explores how data can be associated with its context, a 
 requirement for contextual computing which &quot;...is now expected to grow 30 
 percent annually and reach a market size of a whopping $125 billion by 2023, 
@@ -26,74 +26,78 @@ competing to make the early market. Contextual computing is now expected to grow
 largely due to widespread use in consumer mobile devices and smart agents.</i></p>
 <p><img border="0" src="introImage.png" width="959" height="545"></p>
 <h1>Contents</h1><ul>
-<li><a href="#Introduction0">Introduction</a></li>
+<li><a href="#ContextualDataExplorer0">Contextual Data Explorer</a></li>
 <ul>
-<li><a href="#VideosOfInterest1">Videos Of Interest</a></li>
-<li><a href="#RegardingtheExamplesandDataIsolation2">Regarding the Examples and Data Isolation</a></li>
-<li><a href="#AbouttheDownload3">About the Download</a></li>
+<li><a href="#Introduction1">Introduction</a></li>
+<ul>
+<li><a href="#VideosOfInterest2">Videos Of Interest</a></li>
+<li><a href="#RegardingtheExamplesandDataIsolation3">Regarding the Examples and Data Isolation</a></li>
+<li><a href="#AbouttheDownload4">About the Download</a></li>
 </ul>
-<li><a href="#WhatIsContextualData4">What Is Contextual Data?</a></li>
+<li><a href="#WhatIsContextualData5">What Is Contextual Data?</a></li>
 <ul>
-<li><a href="#Value,Container,andContext5">Value, Container, and Context</a></li>
-<li><a href="#WhatWouldThisLookLikeasaContextGraph6">What Would This Look Like as a Context Graph?</a></li>
-<li><a href="#ParsingtheContext7">Parsing the Context</a></li>
-<li><a href="#RenderingtheContext8">Rendering the Context</a></li>
-<li><a href="#APrototypeContextRenderer9">A Prototype Context Renderer</a></li>
-<li><a href="#NotificationofFieldValueChanges10">Notification of Field Value Changes</a></li>
+<li><a href="#Value,Container,andContext6">Value, Container, and Context</a></li>
+<li><a href="#WhatWouldThisLookLikeasaContextGraph7">What Would This Look Like as a Context Graph?</a></li>
+<li><a href="#ParsingtheContext8">Parsing the Context</a></li>
+<li><a href="#RenderingtheContext9">Rendering the Context</a></li>
+<li><a href="#APrototypeContextRenderer10">A Prototype Context Renderer</a></li>
+<li><a href="#NotificationofFieldValueChanges11">Notification of Field Value Changes</a></li>
 </ul>
-<li><a href="#ContextualDatainRelationwithOtherContexts11">Contextual Data in Relation with Other Contexts</a></li>
+<li><a href="#ContextualDatainRelationwithOtherContexts12">Contextual Data in Relation with Other Contexts</a></li>
 <ul>
-<li><a href="#ContextsCanHaveContexts12">Contexts Can Have Contexts</a></li>
-<li><a href="#ContextualAbstraction13">Contextual Abstraction</a></li>
-<li><a href="#ContextualRelationship-ASimpleExample14">Contextual Relationship - A Simple Example</a></li>
-<li><a href="#ContextualRelationship-AMoreInterestingExample15">Contextual Relationship - A More Interesting Example</a></li>
-<li><a href="#WheretheAbstractionsandRelationshipsareDeclaredisImportant16">Where the Abstractions and Relationships are Declared is Important</a></li>
-<li><a href="#&quot;Or&quot;and&quot;And&quot;Relationships17">&quot;Or&quot; and &quot;And&quot; Relationships</a></li>
-<li><a href="#ValidatingContextRelationships18">Validating Context Relationships</a></li>
+<li><a href="#ContextsCanHaveContexts13">Contexts Can Have Contexts</a></li>
+<li><a href="#ContextualAbstraction14">Contextual Abstraction</a></li>
+<li><a href="#ContextualRelationship-ASimpleExample15">Contextual Relationship - A Simple Example</a></li>
+<li><a href="#ContextualRelationship-AMoreInterestingExample16">Contextual Relationship - A More Interesting Example</a></li>
+<li><a href="#WheretheAbstractionsandRelationshipsareDeclaredisImportant17">Where the Abstractions and Relationships are Declared is Important</a></li>
+<li><a href="#&quot;Or&quot;and&quot;And&quot;Relationships18">&quot;Or&quot; and &quot;And&quot; Relationships</a></li>
+<li><a href="#ValidatingContextRelationships19">Validating Context Relationships</a></li>
 </ul>
-<li><a href="#PersistingContextualData19">Persisting Contextual Data</a></li>
+<li><a href="#PersistingContextualData20">Persisting Contextual Data</a></li>
 <ul>
-<li><a href="#TheContextValueClass20">The ContextValue Class</a></li>
-<li><a href="#CreatingAContextValue21">Creating A ContextValue</a></li>
-<li><a href="#ExampleofPersistingContextualValues22">Example of Persisting Contextual Values</a></li>
-<li><a href="#CreatingaNewContextFromtheBrowser23">Creating a New Context From the Browser</a></li>
+<li><a href="#TheContextValueClass21">The ContextValue Class</a></li>
+<li><a href="#CreatingAContextValue22">Creating A ContextValue</a></li>
+<li><a href="#ExampleofPersistingContextualValues23">Example of Persisting Contextual Values</a></li>
+<li><a href="#CreatingaNewContextFromtheBrowser24">Creating a New Context From the Browser</a></li>
 </ul>
-<li><a href="#SearchingContextualData24">Searching Contextual Data</a></li>
+<li><a href="#SearchingContextualData25">Searching Contextual Data</a></li>
 <ul>
-<li><a href="#EmployeeandAddressBookContexts25">Employee and Address Book Contexts</a></li>
-<li><a href="#ViewingSearchResults26">Viewing Search Results</a></li>
+<li><a href="#EmployeeandAddressBookContexts26">Employee and Address Book Contexts</a></li>
+<li><a href="#ViewingSearchResults27">Viewing Search Results</a></li>
 <ul>
-<li><a href="#BehindtheScenes-BuildingtheContextInstance27">Behind the Scenes - Building the Context Instance</a></li>
-<li><a href="#AnInterestingArtifact28">An Interesting Artifact</a></li>
-</ul>
-</ul>
-<li><a href="#Multi-RowContexts29">Multi-Row Contexts</a></li>
-<li><a href="#TheFlawInContextRelationships30">The Flaw In Context Relationships</a></li>
-<ul>
-<li><a href="#Top-DownDisassociations31">Top - Down Disassociations</a></li>
-<li><a href="#Bottom-UpDisassociations32">Bottom - Up Disassociations</a></li>
-<li><a href="#RecursiveAssociations33">Recursive Associations</a></li>
-<li><a href="#TheTwoReasonsWe'reEncounteringTheseDisassociations34">The Two Reasons We're Encountering These Disassociations</a></li>
-<ul>
-<li><a href="#ContextsAreBidirectional35">Contexts Are Bidirectional</a></li>
-<li><a href="#LackofUniqueKey36">Lack of Unique Key</a></li>
-</ul>
-<li><a href="#SolvingtheDisassociatedContextProblem37">Solving the Disassociated Context Problem</a></li>
-<ul>
-<li><a href="#RevisitingSearching38">Revisiting Searching</a></li>
+<li><a href="#BehindtheScenes-BuildingtheContextInstance28">Behind the Scenes - Building the Context Instance</a></li>
+<li><a href="#AnInterestingArtifact29">An Interesting Artifact</a></li>
 </ul>
 </ul>
-<li><a href="#Conclusion39">Conclusion</a></li>
+<li><a href="#Multi-RowContexts30">Multi-Row Contexts</a></li>
+<li><a href="#TheFlawInContextRelationships31">The Flaw In Context Relationships</a></li>
 <ul>
-<li><a href="#DistributedComputingandContextualData40">Distributed Computing and Contextual Data</a></li>
-<li><a href="#FurtherReading41">Further Reading</a></li>
-<li><a href="#FoundonGitHub42">Found on GitHub</a></li>
-<li><a href="#FutureWork43">Future Work</a></li>
-<li><a href="#References44">References</a></li>
+<li><a href="#Top-DownDisassociations32">Top - Down Disassociations</a></li>
+<li><a href="#Bottom-UpDisassociations33">Bottom - Up Disassociations</a></li>
+<li><a href="#RecursiveAssociations34">Recursive Associations</a></li>
+<li><a href="#TheTwoReasonsWe'reEncounteringTheseDisassociations35">The Two Reasons We're Encountering These Disassociations</a></li>
+<ul>
+<li><a href="#ContextsAreBidirectional36">Contexts Are Bidirectional</a></li>
+<li><a href="#LackofUniqueKey37">Lack of Unique Key</a></li>
+</ul>
+<li><a href="#SolvingtheDisassociatedContextProblem38">Solving the Disassociated Context Problem</a></li>
+<ul>
+<li><a href="#RevisitingSearching39">Revisiting Searching</a></li>
+</ul>
+</ul>
+<li><a href="#Conclusion40">Conclusion</a></li>
+<ul>
+<li><a href="#DistributedComputingandContextualData41">Distributed Computing and Contextual Data</a></li>
+<li><a href="#FurtherReading42">Further Reading</a></li>
+<li><a href="#FoundonGitHub43">Found on GitHub</a></li>
+<li><a href="#FutureWork44">Future Work</a></li>
+<li><a href="#UnitTest45">Unit Test</a></li>
+<li><a href="#References46">References</a></li>
+</ul>
 </ul>
 </ul>
 
-<h2><a name="Introduction0">Introduction</a></h2>
+<h2><a name="Introduction1">Introduction</a></h2>
 <p>This is a concept piece that resulted from another article that I'm still 
 writing on context and meaning.&nbsp; The fundamental idea is to preserve the 
 context to which data is associated.&nbsp; In this article, I'll describe an 
@@ -105,14 +109,14 @@ working with contextual data yielded essentially nothing except for some
 articles indicating how important context is when analyzing data and working 
 with &quot;big data.&quot;&nbsp; What I did find (see Further Reading at the 
 end) indicates that this field is very much still in an academic realm.</p>
-<h3><a name="VideosOfInterest1">Videos Of Interest</a></h3>
+<h3><a name="VideosOfInterest2">Videos Of Interest</a></h3>
 <p>A brief but worthwhile video (even if it is rather abstract):
 <a href="https://www.youtube.com/watch?v=A68qFLmkA24">
 https://www.youtube.com/watch?v=A68qFLmkA24</a> </p>
 <p>A really fun video 
 to watch: <a href="https://www.youtube.com/watch?v=rWDIkfpbTmQ">
 https://www.youtube.com/watch?v=rWDIkfpbTmQ</a> </p>
-<h3><a name="RegardingtheExamplesandDataIsolation2">Regarding the Examples and Data Isolation</a></h3>
+<h3><a name="RegardingtheExamplesandDataIsolation3">Regarding the Examples and Data Isolation</a></h3>
 <p>In the discussion that follows, each example is implemented in its own 
 namespace and can be rendered through the indicatedURL, for example: <code>
 <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example8.EmployeeContext">http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example8.EmployeeContext</a> </code>
@@ -123,7 +127,7 @@ provide isolation from the other examples, <i>is in its own namespace</i>.&nbsp;
 context values are associated with the class types <i>qualified by their 
 namespace</i>, values that you enter in one example are not available in another 
 example!</p>
-<h3><a name="AbouttheDownload3">About the Download</a></h3>
+<h3><a name="AbouttheDownload4">About the Download</a></h3>
 <p>The code base utilizes my own web server architecture based on semantic 
 publisher/subscriber, which you can read in my series of articles
 <a href="https://www.codeproject.com/Articles/1120520/The-Clifton-Method-Part-IV">
@@ -134,7 +138,7 @@ Because I'm leveraging a lot of my core library, the source code is not included
 here, only the DLL's.&nbsp; You can obtain my core library yourself though from
 <a href="https://github.com/cliftonm/clifton">
 https://github.com/cliftonm/clifton</a></p>
-<h2><a name="WhatIsContextualData4">What Is Contextual Data?</a></h2>
+<h2><a name="WhatIsContextualData5">What Is Contextual Data?</a></h2>
 <p>We start with some Google search results:</p>
 <p><i>Contextual data is used to provide more information and context about 
 pieces of data in order to better analyze them.</i><sup>1</sup></p>
@@ -156,7 +160,7 @@ context?&nbsp; Granted, with languages that support reflection, the context can
 possibly be gleaned by inspecting the type system, but with this approach, the 
 context is at the mercy of the object model rather than an explicitly declared 
 contextual type system.&nbsp; </p>
-<h3><a name="Value,Container,andContext5">Value, Container, and Context</a></h3>
+<h3><a name="Value,Container,andContext6">Value, Container, and Context</a></h3>
 <p>When we talk about contextual data, we're really dealing with three distinct 
 concepts: &quot;value&quot;, &quot;the value's container&quot;, and &quot;container's context.&quot;&nbsp; </p>
 <p><img border="0" src="context-container-value.png" width="273" height="170"></p>
@@ -175,7 +179,7 @@ they are wrapped by an outer container:</p>
 string firstName = person.FirstName;</pre>
 <p>the assignment of the &quot;container&quot; <code>firstName</code> completely loses the context in 
 which it exists -- that it is part of a <code>PersonName</code>.</p>
-<h3><a name="WhatWouldThisLookLikeasaContextGraph6">What Would This Look Like as a Context Graph?</a></h3>
+<h3><a name="WhatWouldThisLookLikeasaContextGraph7">What Would This Look Like as a Context Graph?</a></h3>
 <p>If we want to preserve the context in the above example, we could create a 
 Domain Specific Language (DSL) to express declaratively the above class model.&nbsp; 
 Because the DSL is expressed in C# syntax, one implementation would look like 
@@ -221,7 +225,7 @@ public class PersonNameContext : Context
 	get overly hung up on implementation but just look at this as one possible 
 	approach.</li>
 </ul>
-<h3><a name="ParsingtheContext7">Parsing the Context</a></h3>
+<h3><a name="ParsingtheContext8">Parsing the Context</a></h3>
 <p>Parsing a context involves taking contexts and their fields and grouping them 
 into logic groups.&nbsp; I'll explain this more later, but for now, let's look 
 at the resulting output of the parser:</p>
@@ -231,14 +235,14 @@ at the resulting output of the parser:</p>
 <p>Here the parser determines that there is a single context group &quot;PersonName&quot; 
 that does not have any relationships to other context (more on that shortly.)&nbsp; 
 The group has the fields &quot;FirstName&quot; and &quot;LastName&quot;.</p>
-<h3><a name="RenderingtheContext8">Rendering the Context</a></h3>
+<h3><a name="RenderingtheContext9">Rendering the Context</a></h3>
 <p>We also know enough about the context that we can render it in a browser:</p>
 <p><img border="0" src="render1.png" width="298" height="101"></p>
 <p>We can even add a title to the edit box that lets us view the context of the 
 field:</p>
 <p><img border="0" src="render2.png" width="285" height="123"></p>
 <p>This is a useful way of visually inspecting complicated contexts.</p>
-<h3><a name="APrototypeContextRenderer9">A Prototype Context Renderer</a></h3>
+<h3><a name="APrototypeContextRenderer10">A Prototype Context Renderer</a></h3>
 <p>The context HTML is created programmatically and I put together a prototype 
 implementation.&nbsp; There's a lot of options when auto-rendering contexts that 
 in the following code are not explored.&nbsp; Regardless, the code provides an 
@@ -336,7 +340,7 @@ protected void CreateFieldset(StringBuilder sb, Group group, int recNum = 0)
   sb.Append(&quot;\r\n&quot;);
 }
 </pre>
-<h3><a name="NotificationofFieldValueChanges10">Notification of Field Value Changes</a></h3>
+<h3><a name="NotificationofFieldValueChanges11">Notification of Field Value Changes</a></h3>
 <p>The supporting Javascript POST's any change to the field value when the field 
 loses focus:</p>
 <pre>function wireUpValueChangeNotifier() {
@@ -364,14 +368,14 @@ function updateField(id) {
 function post(url, data) {
   return fetch(url, { method: &quot;POST&quot;, body: JSON.stringify(data) });
 }</pre>
-<h2><a name="ContextualDatainRelationwithOtherContexts11">Contextual Data in Relation with Other Contexts</a></h2>
+<h2><a name="ContextualDatainRelationwithOtherContexts12">Contextual Data in Relation with Other Contexts</a></h2>
 <p>Like object oriented programming (OOP), contexts can have containment 
 relationships (the &quot;has a&quot; example above) and abstractions.&nbsp; Unlike some 
 OOP languages like C#, multiple abstractions (as in, multiple inheritance) can 
 be supported.&nbsp; Furthermore, context can have one-to-many and many-to-many 
 relationships for which OOP does not provide a native syntactical expression but 
 which we can easily express with our declarative DSL.</p>
-<h3><a name="ContextsCanHaveContexts12">Contexts Can Have Contexts</a></h3>
+<h3><a name="ContextsCanHaveContexts13">Contexts Can Have Contexts</a></h3>
 <p>URL: 
 <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example2.PersonContext">http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example2.PersonContext</a> </p>
 <p>One of the fundamental concept of contexts is that they are hierarchical -- a 
@@ -398,7 +402,7 @@ three levels:</p>
 <li>The field context (FirstName and LastName)</li>
 </ol>
 <p><img border="0" src="render3.png" width="303" height="137"></p>
-<h3><a name="ContextualAbstraction13">Contextual Abstraction</a></h3>
+<h3><a name="ContextualAbstraction14">Contextual Abstraction</a></h3>
 <p>Abstractions are a slippery slope -- too often an abstraction is used as a 
 convenient way to create common properties and behaviors between a set of 
 sub-classes.&nbsp; These &quot;logic&quot; abstractions, created for the convenience of 
@@ -500,7 +504,7 @@ when an abstraction is coalesced:</p>
     }
   }
 }</pre>
-<h3><a name="ContextualRelationship-ASimpleExample14">Contextual Relationship - A Simple Example</a></h3>
+<h3><a name="ContextualRelationship-ASimpleExample15">Contextual Relationship - A Simple Example</a></h3>
 <p>Abstraction is generic relationship that minimally conveys the meaning that 
 the sub-context is a more specialized version of the super-context.&nbsp; 
 Sometimes we want an explicit relationship between two contexts.&nbsp; In this 
@@ -528,7 +532,7 @@ Functional Programming language.)&nbsp; </p>
 <p><img border="0" src="parser4.png" width="849" height="196"></p>
 <p>Now:</p>
 <p><img border="0" src="parser5.png" width="857" height="217"></p>
-<h3><a name="ContextualRelationship-AMoreInterestingExample15">Contextual Relationship - A More Interesting Example</a></h3>
+<h3><a name="ContextualRelationship-AMoreInterestingExample16">Contextual Relationship - A More Interesting Example</a></h3>
 <p>Taking the &quot;Employee&quot; example above, let's instead create a relationship with 
 an &quot;emergency contact&quot;, requiring that at least one but at most two emergency 
 contacts are provided:</p>
@@ -578,7 +582,7 @@ class EmployeeContext : Context
 Visually, the fields are rendered the same, except we now have an additional 
 path entry in the context:</p>
 <p><img border="0" src="render9.png" width="378" height="306"></p>
-<h3><a name="WheretheAbstractionsandRelationshipsareDeclaredisImportant16">Where the Abstractions and Relationships are Declared is Important</a></h3>
+<h3><a name="WheretheAbstractionsandRelationshipsareDeclaredisImportant17">Where the Abstractions and Relationships are Declared is Important</a></h3>
 <p>Each context manages its own abstractions and relationships.&nbsp; Even if a 
 context does not itself declare an abstraction or a relationship, the containing 
 (super-) context can do so.&nbsp; In this example, the <code>EmergencyContactContext</code> has been 
@@ -610,7 +614,7 @@ super-context, one should only do this if there is additional contextual meaning
 required by the super-context.&nbsp; Otherwise, the sub-context should have 
 declared the relationship/abstraction.&nbsp; So, this illustrates what you 
 should <i>not</i> do.</p>
-<h3><a name="&quot;Or&quot;and&quot;And&quot;Relationships17">&quot;Or&quot; and &quot;And&quot; Relationships</a></h3>
+<h3><a name="&quot;Or&quot;and&quot;And&quot;Relationships18">&quot;Or&quot; and &quot;And&quot; Relationships</a></h3>
 <p>We can chain contexts in a relationship together with <code>Or</code> and <code>And</code> fluent 
 methods.&nbsp; These operators are applied to the left operand, meaning that:</p>
 <pre>a or b or c and d and e</pre>
@@ -652,7 +656,7 @@ public class EmployeeContractContext : Context
 <p>URL: 
 <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example10.EmployeeContractContext">http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example10.EmployeeContractContext</a> </p>
 <p><img border="0" src="render10.png" width="896" height="304"></p>
-<h3><a name="ValidatingContextRelationships18">Validating Context Relationships</a></h3>
+<h3><a name="ValidatingContextRelationships19">Validating Context Relationships</a></h3>
 <p>The relationships (including the abstractions) can be validated.&nbsp; For 
 example, this context declares abstractions for entities that are not part of 
 its context:</p>
@@ -671,7 +675,7 @@ its context:</p>
 contexts, <code>Spouse</code> and <code>Child</code>, that are never declared as entities or relationships to the 
 <code>EmployeeContractContext</code>.&nbsp; The browser displays this error:</p>
 <p><img border="0" src="badDecl1.png" width="345" height="79"></p>
-<h2><a name="PersistingContextualData19">Persisting Contextual Data</a></h2>
+<h2><a name="PersistingContextualData20">Persisting Contextual Data</a></h2>
 <p>Note to the reader -- this section becomes a bit more interactive as I show 
 the code changes that I am making to support the additional behaviors.</p>
 <p>One of the features of contextual data is that the context is easily 
@@ -691,7 +695,7 @@ flat key-value pair relationship:</p>
 the path.&nbsp; The tree structure is formed when entities (sub-contexts and 
 field-level entities) are duplicated according to the cardinality of the entity, 
 where each branch gets a unique ID. </p>
-<h3><a name="TheContextValueClass20">The ContextValue Class</a></h3>
+<h3><a name="TheContextValueClass21">The ContextValue Class</a></h3>
 <p>The key-value pair is managed by the 
 <code>ContextValue</code> class: </p>
 <pre>public class ContextValue
@@ -718,7 +722,7 @@ where each branch gets a unique ID. </p>
 <p>Notice that we're keeping track of the &quot;record number.&quot;&nbsp;&nbsp; For 
 contexts with cardinality &gt; 1 with multiple child entities, we need the record 
 number to ensure that sub-entities maintain their cohesion in the context path.</p>
-<h3><a name="CreatingAContextValue21">Creating A ContextValue</a></h3>
+<h3><a name="CreatingAContextValue22">Creating A ContextValue</a></h3>
 <p>A ContextValue can be created either directly from the parser (from a unit 
 test):</p>
 <pre>var cvFirstName = searchParser.CreateValue&lt;PersonNameContext, FirstName&gt;(&quot;Marc&quot;);
@@ -772,7 +776,7 @@ helps to optimize searching -- rather than walking the entire tree to find <i>
 all</i> matching entity types at different levels of the tree, a quick lookup of 
 the entity type gives us all the nodes in the tree for that type.&nbsp; We'll 
 see this used later on in searches.</p>
-<h3><a name="ExampleofPersistingContextualValues22">Example of Persisting Contextual Values</a></h3>
+<h3><a name="ExampleofPersistingContextualValues23">Example of Persisting Contextual Values</a></h3>
 <p>The unit test code fragments above demonstrate how to persist a value in a 
 particular context using a known path.&nbsp; Let's look at the more interesting 
 example of persisting values in a contextual instance as entered from the 
@@ -928,7 +932,7 @@ protected void RenderNodeValue(StringBuilder sb, ContextNode node)
     sb.Append(&quot; = &quot; + node.ContextValue.Value);
   }
 }</pre>
-<h3><a name="CreatingaNewContextFromtheBrowser23">Creating a New Context From the Browser</a></h3>
+<h3><a name="CreatingaNewContextFromtheBrowser24">Creating a New Context From the Browser</a></h3>
 <p>It would be useful to add a &quot;New&quot; button to create a new context.&nbsp; We'll 
 render it before the dictionary output:</p>
 <pre>sb.StartButton().ID(&quot;newContext&quot;).Class(&quot;margintop10&quot;).Append(&quot;New Context&quot;).EndButton();</pre>
@@ -1030,7 +1034,7 @@ context value dictionary and flattened type node collections look like:</p>
 <p><img border="0" src="render12.png" width="321" height="802"></p>
 <p>Here we see that we have two root level EmployeeContext instances and the 
 context value types have different instances for the different contexts.</p>
-<h2><a name="SearchingContextualData24">Searching Contextual Data</a></h2>
+<h2><a name="SearchingContextualData25">Searching Contextual Data</a></h2>
 <p>Now here's the fun part and where working with contextual data really shines: 
 searching!&nbsp; A profound difference in searching is the the <i>search result</i> provides 
 the context for the results. This means that you are effectively searching the 
@@ -1054,7 +1058,7 @@ results.</p>
 http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example12.AddressBookContext</a> 
 </li>
 </ul>
-<h3><a name="EmployeeandAddressBookContexts25">Employee and Address Book Contexts</a></h3>
+<h3><a name="EmployeeandAddressBookContexts26">Employee and Address Book Contexts</a></h3>
 <p>The address book context re-uses the <code>PersonContext</code>.&nbsp; I also added a very 
 simple <code>ContactContext</code> that can be extended to be more functional later on, but 
 for now, the <code>AddressBookContext</code> is declared like this:</p>
@@ -1288,7 +1292,7 @@ paths that match:</p>
 
   return matches;
 }</pre>
-<h3><a name="ViewingSearchResults26">Viewing Search Results</a></h3>
+<h3><a name="ViewingSearchResults27">Viewing Search Results</a></h3>
 <p>The search result provides a GUID context instance path to the level of the 
 matching context.&nbsp; Any child contexts are part of the match, as well as any 
 fields in the parent contexts.&nbsp; We'll add a button to each search result to 
@@ -1341,7 +1345,7 @@ a name in an address book&quot; or &quot;I want to look up a name in the employe
 database.&quot;&nbsp; Contextual data flips this model around, letting the user pick 
 the contextual frame last.&nbsp; It can be quite useful (or not) to show the 
 user all the contexts in which a subset of the data exists.</p>
-<h4><a name="BehindtheScenes-BuildingtheContextInstance27">Behind the Scenes - Building the Context Instance</a></h4>
+<h4><a name="BehindtheScenes-BuildingtheContextInstance28">Behind the Scenes - Building the Context Instance</a></h4>
 <p>Interestingly (at least to me) building the context instance is quite simple, 
 requiring only that the instance ID's of the matching context be set in the 
 logical context path that the parser creates (we will see next that there is a 
@@ -1392,7 +1396,7 @@ rendering for &quot;view&quot; mode:</p>
 <p>An important point here is that the instance ID's are set to match context 
 instance in the context tree -- this means that we can edit the values and have 
 the appropriate instance update rather than creating a new context instance. </p>
-<h4><a name="AnInterestingArtifact28">An Interesting Artifact</a></h4>
+<h4><a name="AnInterestingArtifact29">An Interesting Artifact</a></h4>
 <p>
 <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example14.ChildContext&isSearch=true">
 http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example14.ChildContext&amp;isSearch=true</a></p>
@@ -1400,7 +1404,7 @@ http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example14.Ch
 actually being searched is the <code>PersonNameContext</code> sub-context of 
 <code>ChildContext</code>.&nbsp; We need to qualify the 
 search by the containing a direct path (upwards) to the context being searched?</p>
-<h2><a name="Multi-RowContexts29">Multi-Row Contexts</a></h2>
+<h2><a name="Multi-RowContexts30">Multi-Row Contexts</a></h2>
 <p>All the examples so far are of single row contexts.&nbsp; Realistically, we 
 need to address a context that can handle multi-row data.&nbsp; A simple example 
 of this is a parent-child relationship, declared this way:</p>
@@ -1454,12 +1458,12 @@ correct values, as demonstrated here after searching for some pre-populated
 data:</p>
 <p>URL: http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example13.ParentContext&amp;isSearch=true</p>
 <p><img border="0" src="multirow2.png" width="426" height="621"></p>
-<h2><a name="TheFlawInContextRelationships30">The Flaw In Context Relationships</a></h2>
+<h2><a name="TheFlawInContextRelationships31">The Flaw In Context Relationships</a></h2>
 <p>The flaw, at least in my implementation of contextual relationships, is that 
 each value instance has a unique context.&nbsp; This means that context-values 
 that are intended to be common <i>across</i> contexts are actually 
 disassociated.&nbsp; Let's explore some disassociations.</p>
-<h3><a name="Top-DownDisassociations31">Top - Down Disassociations</a></h3>
+<h3><a name="Top-DownDisassociations32">Top - Down Disassociations</a></h3>
 <p>A good example of a top-down contextual relationship is where we have father 
 and mother contexts that have a relationship to one or more children.&nbsp; 
 We can declare separate father and mother contexts and for simplicity, let's 
@@ -1529,7 +1533,7 @@ occurrences:</p>
 	and 2.&nbsp; None-the-less, we have two child instances for the same child 
 	and therefore we have disassociated sub-contexts for the common father and mother 
 base context. </p>
-<h3><a name="Bottom-UpDisassociations32">Bottom - Up Disassociations</a></h3>
+<h3><a name="Bottom-UpDisassociations33">Bottom - Up Disassociations</a></h3>
 <p>We could solve this problem with a bottom-up declaration.&nbsp; This form of 
 declaration is not necessarily as intuitive in the UI and still results in the 
 same problem of disassociated sub-contexts:</p>
@@ -1584,7 +1588,7 @@ associate that the father is the same instance in both cases.&nbsp; This is
 actually the same issue as the top-down disassociation discussed previously but 
 it is potentially more hidden because of the bottom-up nature of the context 
 graph.</p>
-<h3><a name="RecursiveAssociations33">Recursive Associations</a></h3>
+<h3><a name="RecursiveAssociations34">Recursive Associations</a></h3>
 <p>Recursive contexts are another problem.&nbsp; Let's say we declare a person 
 has having a relationship with a mother and a father.&nbsp; But of course, moms 
 and dads are people too::</p>
@@ -1684,7 +1688,7 @@ already encountered the exact same context in one of the super-contexts:</p>
 <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example16.PersonContext">
 http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example16.PersonContext</a> </p>
 <p><img border="0" src="flaw8.png" width="304" height="168"></p>
-<h3><a name="TheTwoReasonsWe'reEncounteringTheseDisassociations34">The Two Reasons We're Encountering These Disassociations</a></h3>
+<h3><a name="TheTwoReasonsWe'reEncounteringTheseDisassociations35">The Two Reasons We're Encountering These Disassociations</a></h3>
 <p>In a traditional relational model, we don't encounter this problem for two 
 reasons:</p>
 <ul>
@@ -1692,7 +1696,7 @@ reasons:</p>
 	<li>A relational model associates related items through a unique key. </li>
 </ul>
 <p>Let's explore this further.</p>
-<h4><a name="ContextsAreBidirectional35">Contexts Are Bidirectional</a></h4>
+<h4><a name="ContextsAreBidirectional36">Contexts Are Bidirectional</a></h4>
 <p>Unlike relational models, contexts are bidirectional -- given the root 
 context, one can determine all the sub-contexts associated with the root 
 context.&nbsp; Conversely, given a sub-context, one can navigate the hierarchy 
@@ -1741,7 +1745,7 @@ a context instance and an entity model record instance is:</p>
 	relational model, I get only the Child records <i>unless I explicitly join 
 	with the Father table</i>.</li>
 </ol>
-<h4><a name="LackofUniqueKey36">Lack of Unique Key</a></h4>
+<h4><a name="LackofUniqueKey37">Lack of Unique Key</a></h4>
 <p>So far, the context examples that I've provided are lacking a unique key (or 
 &quot;unique identifier&quot; if you prefer.)&nbsp; A unique key effectively states that 
 the content of a record (or more traditionally stated, &quot;the record instance&quot;) is 
@@ -1758,7 +1762,7 @@ the parents that we enter are specific to that child.&nbsp;
 <font color="#FF0000">So you can see how, via the user interface, we 
 artificially create the context for a relational model that does not contain 
 sufficient information to describe the context by itself.</font></p>
-<h3><a name="SolvingtheDisassociatedContextProblem37">Solving the Disassociated Context Problem</a></h3>
+<h3><a name="SolvingtheDisassociatedContextProblem38">Solving the Disassociated Context Problem</a></h3>
 <p>To solve the disassociated context problem, we need a mechanism for declaring 
 that, instead of creating a distinct context instance at some level in the 
 hierarchy, we want to <i>reference an existing</i> context instance.&nbsp; 
@@ -2141,7 +2145,7 @@ context:</p>
 lookup.&nbsp; So, &quot;father&quot; and &quot;mother&quot;, as root contexts, can never be 
 referenced by other &quot;father&quot; or &quot;mother&quot; contexts.&nbsp; To achieve this, these 
 two contexts would have to be wrapped in a super-context.</p>
-<h4><a name="RevisitingSearching38">Revisiting Searching</a></h4>
+<h4><a name="RevisitingSearching39">Revisiting Searching</a></h4>
 <p>Searching has now been broken because it doesn't yet know about a context 
 that references a sub-context from a different super-context.&nbsp; Again, a 
 context path was expected to be unique.&nbsp; With a shared sub-context, we need 
@@ -2188,7 +2192,7 @@ found when searching on a shared sub-context):</p>
 <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example17.PersonContext&isSearch=true">
 http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example17.PersonContext&amp;isSearch=true</a> </p>
 <p><img border="0" src="lookup6.png" width="311" height="536"><img border="0" src="lookup7.png" width="311" height="536"></p>
-<h2><a name="Conclusion39">Conclusion</a></h2>
+<h2><a name="Conclusion40">Conclusion</a></h2>
 <p>Putting this prototype together was considerably more difficult than I 
 expected.&nbsp; This is partly because the concept itself is rather alien -- we 
 think of context as having data rather than the opposite, data having context.&nbsp; 
@@ -2216,7 +2220,7 @@ knows the context of the data.&nbsp; So, in a very real sense, contextual
 computing is moving the field of data management forward such that data is no 
 longer a static collection of facts and figures but is more &quot;alive&quot; -- data can 
 now trigger concrete activities as determined by its context.&nbsp; </p>
-<h3><a name="DistributedComputingandContextualData40">Distributed Computing and Contextual Data</a></h3>
+<h3><a name="DistributedComputingandContextualData41">Distributed Computing and Contextual Data</a></h3>
 <p>In a distributed computing environment, each node will have a different 
 collection of data and most likely different context for that data.&nbsp; When 
 one node asks the entire system to search for a particular contextual value 
@@ -2226,7 +2230,7 @@ for its context definition, the salient point is that the context is included as
 part of the data values so that the requester can determine what to do with new 
 contexts.&nbsp; This is the foundation, as the link at the beginning of article 
 described, for the <i>younger and more intelligent sibling</i> of Big Data.</p>
-<h3><a name="FurtherReading41">Further Reading</a></h3>
+<h3><a name="FurtherReading42">Further Reading</a></h3>
 <p><a href="https://www.cc.gatech.edu/fce/contexttoolkit/pubs/chi99.pdf">The 
 Context Toolkit: Aiding the Development of Context-Enabled Applications</a></p>
 <p><a href="http://www.dblab.ece.ntua.gr/pubs/uploads/TR-2005-1.pdf">Towards a 
@@ -2240,13 +2244,13 @@ first class citizen added at the level of databases, enabling a uniform approach
 to context and the definition of context aware structures and operations.</i></p>
 <p><a href="http://dmod.eu/deca/jpcc05.pdf">A Context-Aware Preference Database 
 System</a></p>
-<h3><a name="FoundonGitHub42">Found on GitHub</a></h3>
+<h3><a name="FoundonGitHub43">Found on GitHub</a></h3>
 <p>Not much!</p>
 <p><a href="https://github.com/levand/contextual">
 https://github.com/levand/contextual</a></p>
 <p><i>This library provides contextual data structures for maps and vectors that 
 track their own context, from some arbitrary root.</i> </p>
-<h3><a name="FutureWork43">Future Work</a></h3>
+<h3><a name="FutureWork44">Future Work</a></h3>
 <ul>
 	<li>Hierarchical context searches -- fixing this:</li>
 </ul>
@@ -2270,7 +2274,11 @@ references.</li>
 	<li>Other, perhaps less complicated, implementations.</li>
 </ul>
 
-<h3><a name="References44">References</a></h3>
+<h3><a name="UnitTest45">Unit Test</a></h3>
+<p>So far, there's 48 unit tests that are fairly comprehensive.</p>
+<p><img border="0" src="unittests1.png" width="363" height="431"><img border="0" src="unittests2.png" width="345" height="408"><img border="0" src="unittests3.png" width="345" height="202"></p>
+
+<h3><a name="References46">References</a></h3>
 <p>1 - <a href="https://www.techopedia.com/definition/31778/contextual-data">
 https://www.techopedia.com/definition/31778/contextual-data</a> </p>
 <p>2 -
