@@ -1,0 +1,2 @@
+﻿Fields should have a required option along with a conditional lambda
+Ability to coalesce abstractions in the same group

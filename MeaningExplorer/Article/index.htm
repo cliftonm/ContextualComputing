@@ -1,0 +1,643 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Context</title>
+</head>
+
+<body>
+
+<p>Context, Semantics, and Relation</p>
+<p>Somewhat of a Philosophical Journey on Meaning</p>
+<p>What about AI?</p>
+<h2>Introduction</h2>
+<p>If you read this article, I will save you from wondering &quot;Does Marc know what 
+he's talking about?&quot;&nbsp; The answer is &quot;Probably not.&quot;&nbsp; I ask myself 
+questions and I get answers within the context of my experiences as a programmer 
+and human being.&nbsp; In some cases, I frame my questions in a non-technical 
+way to people who have no computer literacy and I'm always fascinated by the 
+responses -- often they are quite illuminating.&nbsp; I did this with parts of 
+this article and was surprised by the similarity in answers.&nbsp; If I convince 
+you that my answers are at least half-truths, then it is probably only because 
+we share some similar contextual frame of reference.&nbsp; </p>
+<h2>Definitions</h2>
+<p>Semantic: &quot;relating to meaning in language or logic.&quot;</p>
+<p>Context: &quot;the circumstances that form the setting for an event, statement, or 
+idea, and in terms of which it can be fully understood and assessed.'</p>
+<p>Relation: &quot;the way in which two or more concepts, objects, or people are 
+connected; a thing's effect on or relevance to another.&quot;</p>
+<h2>The Ways Data Has Meaning</h2>
+<p>And for whom is the meaning relevant?&nbsp; Meaningful data is important to 
+three entities:</p>
+<ol>
+	<li>The program itself</li>
+	<li>The programmer</li>
+	<li>The user</li>
+</ol>
+<p>Some examples:</p>
+<ul>
+	<li>The Program Itself</li>
+</ul>
+<p>We use a
+<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types">
+MIME type</a> in an HTTP response to help the browser render the data, which can 
+take various forms such as audio, image, text, HTML, and so forth.&nbsp; Oddly 
+enough, MIME stands for &quot;Multipurpose Internet Mail Extensions&quot; and thus the 
+acronym's meaning has been distorted.</p>
+<ul>
+	<li>The Programmer</li>
+</ul>
+<p>The programmer needs to associate meaning to data contained in variables, 
+databases, protocols, and so forth.&nbsp; Bugs often result when a programmer 
+fails to convey the meaning of the data, or worse, the actual meaning of the 
+data is different than its associated &quot;label&quot; which happens all to often when a 
+column in a database table ends up being repurposed for some other data but the 
+column name isn't changed.</p>
+<ul>
+	<li>The User</li>
+</ul>
+<p>And of course, the user must be able to associate data and meaning both to 
+the data being entered and the data being displayed.&nbsp; This is most often 
+done by placing labels next to input/output fields, but other kinds of data 
+visualizations relate meaning, particularly with regards to relationship, in an 
+intuitive way.</p>
+<p>It is of interest to note that much of programming involves the manipulation 
+of context, meaning, and relation between different programs and between the 
+program and the user.</p>
+<h3>Meaning Using Container Names</h3>
+<p>One of the simplest ways for a piece of data to have some meaning is through the container's name, 
+particularly when the container is a native type like <code>string</code>.&nbsp; For example, these two fields 
+have meaning to us as the programmer::</p>
+<pre>string city;
+string state;</pre>
+<p>However, because the two fields above do not have meaning to the machine, it 
+is possible to code this mistake:</p>
+<pre>GetWeatherFor(&quot;San Francisco&quot;, &quot;CA&quot;);</pre>
+<pre>void GetWeatherFor(string state, string city) {...} </pre>
+<p>Here the implementation accidentally reverses the city and state.&nbsp; The 
+lack of meaning can be particularly confusing when we only have the data values 
+from which to extract meaning, for example:</p>
+<pre>GetWeatherFor(&quot;New York&quot;, &quot;New York&quot;);</pre>
+<p>which is the city, and which is the state?&nbsp; Did you also notice that I 
+changed the state from a two letter abbreviation to its full name?&nbsp; Here we 
+have two different representations for the same semantics, that being &quot;state.&quot;&nbsp; 
+Which of course is only valid in certain context (i.e., countries) but we'll get 
+to that later.</p>
+<h3>Meaning Using Typed Containers</h3>
+<p>With Object Oriented Programming, the class, being a container, conveys 
+meaning to both the programmer and the program -- at least for languages that 
+support some level of reflection where the program can determine type 
+information and name.&nbsp; For example, we could write:</p>
+<pre>class Location
+{
+  string city;
+  string state;
+}</pre>
+<p>The above gives both the programmer and the program some basic meaning to 
+what is being contained.&nbsp; But the meaning of the container type is 
+nebulous.&nbsp; Consider these alternatives:</p>
+<table border="1" width="69%">
+	<tr>
+		<td width="209"><pre>class Location
+{
+  decimal latitude;
+  decimal longitude;
+  decimal altitude;
+}</pre></td>
+		<td width="208"><pre>class Location
+{
+  decimal x;
+  decimal y;
+  decimal z;
+}		</pre></td>
+		<td width="204"><pre>class Location
+{
+  decimal distance;
+  decimal elevation;
+  decimal azimuth;
+}</pre></td>
+	</tr>
+</table>
+<p>Not only is the more concise meaning of the coordinate system determined by 
+the context of the labels of the native types that they contain, but the 
+orientation (is a positive angle measured clockwise or counter-clockwise, and 
+from what ordinal direction?) of coordinate system is completely lacking. </p>
+<p>So, we begin to see some problems:</p>
+<ul>
+	<li>Naming is often incomplete, such that the container's contents determine 
+	the context, and therefore the more complete meaning of the container.</li>
+	<li>Assumptions are often made, particularly with regards to units of 
+	measure and orientation (physical or metaphorical) outside of the immediate 
+	context of the container, relying on some implicitly agreed upon convention 
+	-- a relationship to a convention, in other words.</li>
+	<li>Because people have to name things, the name of something often conveys 
+	incomplete or incorrect meaning. </li>
+</ul>
+<p>Going back to the city/state example, these would perhaps be better 
+implementations (ignoring the implementation details):</p>
+<pre>class USLocation
+{
+  City city;
+  State state;
+}
+
+class State
+{
+  FullName name;
+  StateAbbr abbr;
+}</pre>
+<p>The advantage we start to gain here is that not only does the semantics of 
+the type convey meaning but, being now a concrete &quot;thing&quot; from the perspective 
+of the programming language, various rules and validations can be implemented as 
+well.&nbsp; It's also interesting to note that by shifting the semantics to the 
+type (going from native meaningless type to strong type) the importance of the 
+container's name is reduced to essentially ensuring uniqueness.&nbsp; This form 
+also ensures type correctness, as this <i>pseudo-code</i> results in a compiler 
+error in a strongly typed language:</p>
+<pre>City someCity = &quot;New York&quot;;
+State someState = &quot;NY&quot;;
+GetWeatherFor(someCity, someState);
+
+void GetWeatherFor(State state, City city) {...}</pre>
+<p>This is the predominant reason that I have against duck-typed languages -- in 
+a duck-typed language, the programming mistake above might not even result in a 
+runtime error!</p>
+<h3>Context Creates Meaning</h3>
+<p>The above examples have very generic meaning because there's no context (a 
+form of relationship) with which to associate a Location.&nbsp; Even the meaning 
+of what type of location (granted, easily corrected by being more specific in 
+the name of the Location class) has to be gleaned from the semantics (the 
+fields) of the class itself.&nbsp; We can say a couple things about context:</p>
+<ol>
+	<li>With regards to the relationship the container has with its internal 
+	implementation, the internals can provide context about <i>how</i> the container is to be 
+	used.</li>
+	<li>With regards to the relationship of the container to other containers, 
+	we can obtain context regarding <i>who</i> uses the container.</li>
+</ol>
+<p>As a trivial example, if we rewrite the Location class like this:</p>
+<pre>class CelestialCoordinate
+{
+  Distance distance;
+  Elevation elevation;
+  Azimuth azimuth;
+}</pre>
+<p>we can say that in this case, the context of a celestial coordinate requires 
+(the <i>how</i>) a distance, elevation, and azimuth.&nbsp; Conversely, if we 
+look at one of the fields, say azimuth, we can identify that context (the <i>who</i>) 
+in which azimuth is used -- the type <code>CelestialCoordinate</code>.</p>
+<p><font color="#FF0000">Context <i>is</i> relation because context requires two or more things to be 
+in relationship with each other.&nbsp; Without context, the meaning 
+of some thing is basically unknown and is therefore, if not useless, at least 
+pointless.</font>&nbsp; </p>
+<p>Therefore, the meaning of a &quot;thing&quot; 
+must describe not only the thing itself but the context of that thing -- at 
+least one other thing in which it is in relationship.&nbsp; The OOP &quot;has a&quot; 
+relationship is a very important context when working with data semantically.&nbsp; 
+Let's take a look at this example:</p>
+<pre>USLocation location;
+
+class WeatherForecast
+{
+  USLocation location;
+  Forecast[] fiveDayForecast;
+}
+
+class Forecast
+{
+  USLocation location;
+  Date date;
+  Conditions conditions;
+}</pre>
+<p>Here we have a context-less field called <code>location</code> as well as a 
+field of the same type in the context of a <code>WeatherForecast</code>.&nbsp; 
+Lastly, we see <code>location</code> again in the context of each day in a five day forecast.&nbsp; 
+You should appreciate the complexity of naming things at this point and 
+the fact that I'm not too concerned (nor skilled) with precise naming at the moment.&nbsp; What <i>is</i> 
+important is that if we have an agent that operates on the type <code>USLocation</code>, 
+it most definitely needs to know the context in which to activate the 
+processing.</p>
+<h3>Relation Creates Meaning</h3>
+<p>When I wrote about context above, I was referring to context that is obtained 
+by inspecting the containment relationship &quot;has a&quot; and &quot;is a member of.&quot;&nbsp; 
+There are obviously relationships that are not containment but rather are 
+expressed in some other association terminology.&nbsp; Example include &quot;owns 
+[something]&quot;, &quot;married [to someone]&quot;, &quot;lives [somewhere]&quot;, &quot;committed [a 
+crime]&quot;, &quot;likes [some food]&quot;, &quot;likes [some movie]&quot;, etc.&nbsp; Each entity in 
+the brackets is itself a semantic entity, and the relationship is also semantic, 
+in that the word has a specific meaning.&nbsp; We rarely express these 
+relationships semantically in code.&nbsp; Our code typically looks like this:</p>
+<pre>class Employee
+{
+  Person emergencyContact;
+  Person insuredSpouse;
+  Person[] insuredChildren; 
+  Person beneficiary;
+  Person supervisor;
+}</pre>
+<p>These are all relationships where the program has no way of understanding the 
+semantics of the relationship.&nbsp; It's quite possible that under certain 
+conditions, neither the user nor the programmer even understands the semantics 
+of the relationship!&nbsp; And of course, this kind of coding creates monolith 
+applications that eventually are rewritten because extending them breaks so many 
+other things.&nbsp; And of course, the use of <code>Person</code> as the container where the 
+label provides the meaning for each <code>Person</code>, well, this is also not semantic very useful.&nbsp; Unfortunately though, it is where abstraction, 
+one of the tenets of OOP, has taken us.&nbsp; </p>
+<p><font color="#FF0000">My conjecture is that abstraction should only be 
+applied to <i>behaviors</i> and specialization should be applied 
+for <i>types.</i></font></p>
+<p>So instead, we might have (at least one iteration toward better semantics):</p>
+<pre>class Employee
+{
+  EmergencyContact emergencyContact;
+  InsuredSpouse insuredSpouse;
+  InsuredChild[] insuredChildren; 
+  Beneficiary beneficiary;
+  Supervisor supervisor;
+}</pre>
+<h3>Abstraction Creates Meaning</h3>
+<p>Just as specification creates meaning, so does abstraction create meaning.&nbsp; 
+It is meaningful to categorize bats, beetles, and ants as &quot;bugs&quot; (at least 
+<a href="https://i.pinimg.com/originals/c8/aa/2e/c8aa2ee9bd837931e081e270c7603b70.jpg">Calvin does</a>) because it creates a general context that is particularly useful 
+for searching and creating generalized hypotheses about two or more things, 
+which of particular importance with regards to learning -- the process of 
+generalizing, testing the fit, re-categorizing when a generalization fails is 
+how we go about balancing specification with generalization in order to function 
+meaningfully in the world.&nbsp; In the above example, each of the types on the 
+left might be derived from <code>Person</code>:</p>
+<pre>abstract class Person {...}
+
+class EmergencyContact : Person {...}
+class InsuredSpouse : Person {...}
+class InsuredChild : Person {...}
+class Beneficiary : Person {...}
+class Supervisor : Person {...}</pre>
+<p>And I note that a beneficiary might not be a person but rather, say, a 
+charity or non-profit organization, which reveals limitations on our hard coded 
+model.&nbsp; More on that later.&nbsp; None the less it gives us the ability to start with an abstraction 
+like &quot;Person&quot; and ask &quot;What are the fields in the <code>Employee</code> class that are 
+&quot;people?&quot;&nbsp; We can begin to extract meaning from the semantics of 
+an object model with meta-level queries, having nothing to do with the actual 
+data contained in those objects.&nbsp;&nbsp;&nbsp; </p>
+<h2>The Ways We Implement Relation</h2>
+<p>In the above examples, the context, relationship, and abstraction is 
+hard-coded.&nbsp; As we saw with <code>Beneficiary</code>, we could argue that 
+this is a coding error as beneficiaries are not always people.&nbsp; Context and 
+abstraction are types of relation that can be extracted into a more pliable 
+meta-level.&nbsp; If we think about it, the implicit relationships that are 
+hard-coded are also extractable into a meta-relationship.</p>
+<h3>Context As Relationship</h3>
+<p>Context, and perhaps I'm oversimplifying, can be thought of as a collection 
+of things.&nbsp; Each thing in the collection has a shared context for the 
+simple fact that other things are in the same collection.&nbsp; A simple 
+implementation is trivial:</p>
+<pre>class Context
+{
+  List&lt;IEntity&gt; entities;
+  public Add(IEntity entity) {entities.Add(entity);}
+}</pre>
+<p>where, using the weather forecast example:</p>
+<pre>class USLocation : IEntity 
+{
+  Context context;
+  ...
+}
+
+class Forecast : IEntity
+{
+  Context context;
+  ...
+}
+
+Context GetForecast()
+{
+  Context context = new Context(&quot;5 Day Forecast&quot;);
+  context.Add(new USLocation(context));
+  context.Add(new Forecast(context, Day._1));
+  context.Add(new Forecast(context, Day._2));
+  context.Add(new Forecast(context, Day._3));
+  context.Add(new Forecast(context, Day._4));
+  context.Add(new Forecast(context, Day._5));
+
+  return context;
+}</pre>
+<p>This is a soft-coded context, and note that each entity is given the context 
+in which it exists.&nbsp; This is necessary so that the entity itself can query 
+about its context -- if I have a <code>USLocation</code> instance, I can ask it &quot;in what 
+context do you live?&quot; and it can &quot;reply&quot; with its context, in 
+this case &quot;5 Day Forecast.&quot;&nbsp; When we hard-code the object model, we're 
+almost always creating not only immutable contexts, but contexts that can be 
+understood only by inspecting the code.&nbsp; Here instead, we've named the 
+context (yes, using a string, there are better options) and we can even build 
+rules that verify what the context contains.&nbsp; And to really make matters 
+complicated, the name of the context itself can have contextual information like 
+&quot;a 5 day forecast is a kind of forecast.&quot;&nbsp; </p>
+<p>The above example eliminates the container <code>WeatherForecast</code> and 
+starts to fly against the gale of object oriented programming tenets.&nbsp; We 
+start to lose compile-time type checking, code that utilizes the entities in the 
+context becomes more obtuse and therefore less readable / maintainable and 
+overall is probably not the direction one would normally go unless from the 
+get-go you needed a general purpose container.&nbsp; So there are tradeoffs, and 
+given that I'm not aware of a programming language (my experience is however 
+quite limited) that helps maintain 
+compile-time checking, ease of access and readability, the idea of programming 
+in this form is understandably not what a programmer would normally do.&nbsp; 
+There's some interesting ways around this which I'll explore later.</p>
+<h3>Relationship as Relationship</h3>
+<p>An odd heading, but what I mean is extracting out the explicit relationship 
+from the property and making it explicitly.&nbsp; Earlier we saw this:</p>
+<pre>class Employee
+{
+  EmergencyContact emergencyContact;
+  InsuredSpouse insuredSpouse;
+  InsuredChild[] insuredChildren; 
+  Beneficiary beneficiary;
+  Supervisor supervisor;
+}</pre>
+<p>Here the relationships are implicit in the types.&nbsp; What we can do 
+instead is extract out the relationship, which is a common enough practice, 
+perhaps implemented as an enumeration describing the kind of relationship.&nbsp; 
+So we might have something like this:</p>
+<pre>class RelatedPerson : Person
+{
+  public RelationshipType relationshipType;
+}</pre>
+<p>where:</p>
+<pre>enum RelationshipType
+{
+  EmergencyContact,
+  InsuredSpouse,
+  InsuredChild,
+  Beneficiary,
+  Supervisor,
+}</pre>
+<p>Notice what then happens:</p>
+<pre>class Employee
+{
+  List&lt;RelatedPerson&gt; relatedPeople;
+  // other stuff about the Employee
+}</pre>
+<p>It's interesting how this begins to take the form of the <code>Context</code> 
+example above, at least with regards to the collection of related people.&nbsp; 
+In &quot;context&quot; form, this might look more like:</p>
+<pre>context.Add(new Employee(context));
+context.Add(new RelatedPerson(context));</pre>
+<p>Let's do something a bit different though.&nbsp; Instead of an enum 
+expressing the relationship type, let's use actual types:</p>
+<pre>// General purpose relationship:
+class Root : IRelationship {}
+class HasA : IRelationship {}
+class KindOf : IRelationship {}
+
+// Using the employee example:
+class EmergencyContact : IRelationship {}
+class InsuredSpouse : IRelationship {}
+class InsuredChild : IRelationship {}
+class Beneficiary : IRelationship {}
+class Supervisor : IRelationship {}</pre>
+<p>There really is no implementation, we're simply declaring a type.&nbsp; We then define the relationship of objects within a context:</p>
+<pre>Context context = new Context(&quot;Employee&quot;);
+var employee = new Employee(context);
+context.Add(employee);         // default is Root relationship
+context.Add&lt;EmergencyContact&gt;(new Person(context), employee);
+context.Add&lt;InsuredSpouse&gt;(new Person(context), employee);
+context.Add&lt;InsuredChild&gt;(new Person(context), employee);
+context.Add&lt;Beneficiary&gt;(new Person(context), employee);
+context.Add&lt;Supervisor&gt;(new Person(context), employee);</pre>
+<p>And oh my goodness, <b>we are no longer restricted to using a person as a 
+beneficiary</b>, because we can do this:</p>
+<pre>context.Add&lt;Beneficiary&gt;(new NonProfitBusiness(context), employee);</pre>
+<p>Notice in these examples the generic parameter defines the relationship type 
+and, in addition to the object in the context, we also provide the object to 
+which it is related.&nbsp; The Add method signature would look something like 
+this:</p>
+<pre>void Add&lt;T&gt;(IEntity entity, IEntity relatedEntity) where T : IRelationship {...}</pre>
+<p>The implementation details are trivial.</p>
+<h3>Abstraction As Relationship</h3>
+<p>One of the issues with the code earlier illustrating abstraction:</p>
+<pre>class EmergencyContact : Person {...}</pre>
+<p>is that C# implements single-inheritance, not multiple-inheritance.&nbsp; 
+While many abstractions are in the form of a single-inheritance hierarchy, 
+multiple inheritance <i>can</i> on occasion be useful.&nbsp; 
+However, one can also get into a mental logjam confusing relationship as abstraction.&nbsp; 
+This (if it were possible):</p>
+<pre>class EmergencyContact : Person, Relative {...}</pre>
+<p>seems like it describes two abstractions but actually only <code>Person</code> is an 
+abstraction.&nbsp; <code>Relative</code> is a relation, no pun intended.&nbsp; 
+True abstractions are actually very hard to determine for two reasons:</p>
+<ol>
+	<li>Often abstractions actually represent relation.</li>
+<li>The abstraction you choose occurs somewhere in the hierarchy of abstractions 
+-- choosing the wrong level in the hierarchy can lead to a lot of code 
+rewriting later on!</li>
+	<li>There's a difference between a true &quot;type&quot; abstraction and behavior 
+	inheritance.</li>
+</ol>
+<p>Regarding #2, perhaps somewhere in the type system exists a taxonomic ranking 
+(excluding subphylum, subclasses, superorders, and subfamilies):</p>
+<pre>class Animalia : Eukarya {}
+class Chordata : Animalia {}
+class Mammalia : Chordata {}
+class Primates : Mammalia {}
+class Hominidae : Primates {}
+class Homo : Hominidae {}
+class Homosapiens : Homo {}
+class Person : Homosapiens {}</pre>
+<p>Heck, why not?&nbsp; </p>
+<p>Regarding #3, in programming, we often use multiple inheritance (at least in 
+languages like C++) to acquire <i>behaviors</i> implemented by the abstractions.&nbsp; 
+In languages like C#, we get the behaviors of one abstract class and then have 
+to use interfaces to define additional behaviors, but those must be implemented 
+by the child class!&nbsp; Regardless, the abstractions are purely for the 
+convenience of the programmer and do not necessarily represent true &quot;type&quot; 
+abstractions but rather behavior inheritance.&nbsp; I am not interested in 
+behaviors here because this is exactly what we're teasing out of the class 
+definition!&nbsp; In this theoretical model, a class is nothing more than 
+container for types that ultimately are implemented by native language types.&nbsp; </p>
+<p>As an aside, while type abstraction provides useful meaning in terms of 
+generalization and categorization, does behavioral inheritance provide any 
+meaning?&nbsp; More generally, does behavior (functions and methods!) provide 
+meaning?&nbsp; This is a very complex question.&nbsp; For example, it is often 
+the case that the behavior of the C-level people in a company creates the 
+cultural meaning for that company, however, to put it very simplistically (but 
+with a good analogy to programming) I will take that position that behavior is 
+actually a form of communication.&nbsp; When something behaves in a certain way, 
+it creates &quot;messages&quot; that can be used to understand the environment and 
+construct a local reality.&nbsp; (I've been reading about
+<a href="https://en.wikipedia.org/wiki/Symbolic_behavior">Symbolic Behavior</a> 
+and probably wildly misinterpreting what I've been reading.)&nbsp; 
+This actually works well as an analogy with languages like SmallTalk where all 
+&quot;behaviors&quot; (methods) are actually messages to a class' matching 
+methods.</p>
+<p>Here potentially is a valid multiple-inheritance type abstraction:</p>
+<pre>class Chair : Furniture, Seat {}</pre>
+<p>Not all pieces of furniture are seats, and not all seats are pieces of 
+furniture.&nbsp; This helps us to create a concrete definition of a true type 
+abstraction: <font color="#FF0000">The base types must be capable of mutual 
+exclusion.</font>&nbsp; If one type is completely inclusive of the other type, 
+then the abstraction can be represented hierarchically rather than as sibling 
+abstractions.&nbsp; Maybe you're better at thinking of these kinds of 
+abstractions than I am -- it took me quite a few minutes to come up with that 
+example.</p>
+<p>Interestingly, while we managed to include relationship in our context 
+(because relationship between concrete things is itself concrete), we should ask 
+the question &quot;Is abstraction independent of context?&quot;&nbsp; Again, this is a 
+tricky question.&nbsp; There are some abstractions that may be truly independent 
+of context (like Person and its taxonomy) while other abstractions are highly 
+specific <i>to the context</i>.&nbsp; Here's the idea.&nbsp; Given:</p>
+<pre>context.Add&lt;InsuredSpouse&gt;(new Person(context), employee);
+context.Add&lt;InsuredChild&gt;(new Person(context), employee);</pre>
+<p>We want to guarantee that the relation <code>InsuredSpouse</code> references an actual 
+<code>Spouse</code> with an abstraction of <code>Person</code>, and that the relation <code>InsuredChild</code> 
+references an actual <code>Child</code> with an abstraction of <code>Person</code>.&nbsp; 
+So we just discovered something: <b>relationships have rules</b>!&nbsp; More on 
+this later, but for now, we need to be able to support both contextual 
+abstraction and context-independent abstraction.&nbsp; It seems simple enough to 
+do this:</p>
+<pre>class Spouse : Person {}
+class Child : Person {}
+
+context.Add&lt;InsuredSpouse&gt;(new Spouse(context), employee);
+context.Add&lt;InsuredChild&gt;(new Child(context), employee);</pre>
+<p>In a different context, it may be irrelevant that <code>Spouse</code> is a <code>Person</code> 
+and may have a different kind of abstraction.&nbsp; (We may want to look explore 
+overloading the type system system at some point.)&nbsp; If we want to be a bit 
+more dynamic about it, we might want to consider these two use cases:</p>
+<pre>class Spouse : IEntity {}
+class Child : IEntity {}
+class Person : IEntity {} 
+
+Global.AddAbstraction&lt;Spouse, Person&gt;();
+Global.AddAbstraction&lt;Child, Person&gt;();
+
+// or...
+
+context.AddAbstraction&lt;Spouse, Person&gt;();
+context.AddAbstraction&lt;Child, Person&gt;();</pre>
+<p>Let's play with what encoding some relationship rules might look like:</p>
+<pre>context.Relationship&lt;InsuredSpouse&gt;().MustBe&lt;Spouse&gt;();
+context.Relationship&lt;InsuredChild&gt;().MustBe&lt;Child&gt;();
+context.Relationship&lt;Beneficiary&gt;().CanBe&lt;Person&gt;().OrCanBe&lt;NonProfitBusiness&gt;();</pre>
+<p>At this point, you're probably experiencing the &quot;Marc is going crazy&quot; effect, 
+others may start wondering if I'm reinventing a rule inference engine.&nbsp; 
+Probably the former, not intentionally the latter.&nbsp; If it helps, where I'm 
+trying to get to is a concrete type system that doesn't rely on metadata 
+attributes to convey context, relationship, and abstraction, but is still 
+extensible 1) without changing the original code and 2) at runtime with 
+dynamically loaded modules.</p>
+<h2>Which Comes First, the Concrete Context or the Declared Context?</h2>
+<p>In the above examples, I've created a context that is populated with concrete 
+objects.&nbsp; Given that the <code>Context</code> class is just a container for 
+<code>IEntity</code> objects: <code>List&lt;IEntity&gt; entities;</code> the <code>Context</code> has no knowledge 
+of what it is <i>supposed</i> to contain.&nbsp; Let's do that now.&nbsp; The use 
+case examples might look like this:<pre>context.Declare&lt;Employee&gt;().OneAndOnlyOne();
+context.Declare&lt;Person, EmergencyContact&gt;().OneOrMore();
+context.Declare&lt;Person, InsuredSpouse&gt;().ZeroOrOne();
+context.Declare&lt;Person, InsuredChild&gt;().ZeroOrMore();
+context.Declare&lt;Person, Beneficiary&gt;().Min(1).Max(2);
+context.Declare&lt;Person, Supervisor&gt;().Min(1).Max(3);</pre>
+<p>Given this, the context &quot;knows&quot; that it must have:</p>
+<ol>
+	<li>An employee.</li>
+<li>One or more emergency contacts.</li>
+	<li>Zero or one insured spouse.</li>
+<li>Zero or more insured children.</li>
+	<li>Up to two beneficiaries, but at least one.</li>
+<li>Up to three supervisors, but at least one.</li>
+</ol>
+<p>Now we have discovered something - we can have rules:</p>
+<ol>
+	<li>That prevent entities from being added to the wrong context.</li>
+	<li>As to the number of entities of a particular type.</li>
+</ol>
+<p>And most importantly, <font color="#FF0000">we can infer a context from 
+disparate data elements that fit the rules of the context and the entity 
+relationships<i>.</i></font>&nbsp; This gives us a pass/fail criteria or we can assign 
+a &quot;completeness&quot; of 
+the data matching a particular context based on how well the data fits that 
+context.&nbsp; This can be a useful property of a context when performing 
+pattern matching.&nbsp; However, in our use-case example:</p>
+<pre>context.Add&lt;InsuredSpouse&gt;(new Spouse(context), employee);</pre>
+<p>we have a problem -- this pseudo-code requires that the <code>Spouse</code> instance 
+accepts as an constructor parameter the context in which it lives.&nbsp; This 
+does not work at all if we want to support free-floating data that we attempt to 
+fit into different contexts.&nbsp; Thankfully we haven't coded anything yet, the 
+code examples so far are just hypothetical pseudo-code and we've just discovered 
+a flaw in the pseudo-code!&nbsp; Besides, requiring that the constructor of 
+every <code>IEntity</code> implementer accept a <code>Context</code> parameter was just ugly, so it's good 
+to be fixing this, and fixing it for a justifiable reason.</p>
+<h4>Did I Just Create a Simplistic Classification System?</h4>
+<p>Yes - we can definitely use this architecture to classify a &quot;thing&quot; by the 
+the &quot;things&quot; that can be associated with its context.&nbsp; However, as a 
+classification system it's incomplete because so far all we've created is the 
+ability to classify something by the type -- relationship type and instance 
+type.&nbsp; We do not yet have the ability to qualify a context by <i>entity 
+value</i>.</p>
+<h2>Other Concepts</h2>
+<h3>Imagination</h3>
+<p>What is imagination?&nbsp; We could say that imagination is the loosening of 
+the constraints of a context, allowing things that normally do not fit within a 
+context match with a &quot;looks like...&quot; construct.&nbsp; So, for example, we can 
+look at a cloud and come up with all sorts of imaginations of what the cloud 
+looks like by loosening the requirements for context matching.</p>
+<p><b><font color="#FF0000">TODO: Loosening context constraints by value.</font></b></p>
+<h3>Abstractions Help With Generalization</h3>
+<p>We may have a known context for a &quot;mode of transportation&quot; from which 
+&quot;automobile&quot; is derived, identified by discrete items such as wheels and 
+windows.&nbsp; When presented with a bicycle which has wheels, this partially 
+fits &quot;automobile&quot; and the knowledge system can ask &quot;it doesn't look like a car 
+but is it a kind of mode of transportation?&quot;</p>
+<h3>Context Hierarchies are Bidirectional</h3>
+<p>Sometimes the higher level context is determined by the discrete sub-context.&nbsp; </p>
+<p>Other times the higher level context determines the actual concrete 
+sub-context.&nbsp; For example, a person in a business suite in an office is 
+probably a manager or executive.&nbsp; A person in a business suite at a sports 
+event is probably the coach or owner of the team.&nbsp; A person in a business 
+suite sitting at a desk with a country's flag behind him/her is probably the 
+country's leader.</p>
+<p>An interesting thing is that as we identify the broader context, we become 
+better at identifying the sub-contexts, and vice-versa.</p>
+<h3>Context is Associative</h3>
+<p>Sometimes discrete things that don't perfectly fit in a context are 
+identified by other things that do fit.&nbsp; For example, a few oranges are 
+ripe helps to identify that the other un-ripe objects are also oranges.</p>
+<h3>Contexts Build Other Contexts</h3>
+<p>Once a context exists, it becomes suitable for inclusion in a larger context.</p>
+<p>&nbsp;</p>
+<p>&quot;Hyper-typed&quot;</p>
+<p>Relationships have Rules!</p>
+<p>Overloading the type system with too many abstraction relationships</p>
+<p>Extension methods:</p>
+<pre>class WeatherForecastContext : Context {} 
+
+public static USLocation GetLocation(this WeatherForecastContext context)
+{
+}</pre>
+<p>Why use extension methods?&nbsp; Well, because the specialized context type 
+only needs to be declared, not &quot;defined&quot; in terms of its methods.&nbsp; Also, it 
+becomes easily extensible without modifying the specialized type.&nbsp; For 
+example, an extension method could be used to get the 5 day temperature average.&nbsp; 
+Extension methods avoid the whole mess (yes, I just said mess) of derived 
+objects, factories, dependency injection, etc., that are, in my opinion, 
+workarounds to the problems with OOP.</p>
+<h2>Behaviors</h2>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+<p>Some notes on abstractions:</p>
+<p>
+<a href="https://stackoverflow.com/questions/573913/a-use-for-multiple-inheritance">
+https://stackoverflow.com/questions/573913/a-use-for-multiple-inheritance</a></p>
+<p>
+<a href="http://www.thefirstscience.org/is-there-an-alternative-to-abstraction/">
+http://www.thefirstscience.org/is-there-an-alternative-to-abstraction/</a> </p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

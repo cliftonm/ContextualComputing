@@ -1,0 +1,2283 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>New Page 1</title>
+</head>
+
+<body>
+
+<p>Contextual Data</p>
+<p>A prototype that explores how data can be associated with its context, a 
+requirement for contextual computing which &quot;...is now expected to grow 30 
+percent annually and reach a market size of a whopping $125 billion by 2023, 
+largely due to widespread use in consumer mobile devices and smart agents.&quot;</p>
+<p>The full quote from ZDNet:
+<a href="http://www.zdnet.com/article/the-enterprise-technologies-to-watch-in-2017/">
+http://www.zdnet.com/article/the-enterprise-technologies-to-watch-in-2017/</a> </p>
+<p><i><b>Contextual computing</b>. The increasing desire to augment productivity 
+and collaboration by supplying information on-demand, usually just as it's 
+needed and before it's explicitly asked for, has already become big business. 
+Established industry players such as Apple, Intel, and Nokia are working on 
+and/or offering context-aware APIs already, while a raft of startups is 
+competing to make the early market. Contextual computing is now expected to grow 
+30 percent annually and reach a market size of a whopping $125 billion by 2023, 
+largely due to widespread use in consumer mobile devices and smart agents.</i></p>
+<p><img border="0" src="introImage.png" width="959" height="545"></p>
+<h1>Contents</h1><ul>
+<li><a href="#Introduction0">Introduction</a></li>
+<ul>
+<li><a href="#VideosOfInterest1">Videos Of Interest</a></li>
+<li><a href="#RegardingtheExamplesandDataIsolation2">Regarding the Examples and Data Isolation</a></li>
+<li><a href="#AbouttheDownload3">About the Download</a></li>
+</ul>
+<li><a href="#WhatIsContextualData4">What Is Contextual Data?</a></li>
+<ul>
+<li><a href="#Value,Container,andContext5">Value, Container, and Context</a></li>
+<li><a href="#WhatWouldThisLookLikeasaContextGraph6">What Would This Look Like as a Context Graph?</a></li>
+<li><a href="#ParsingtheContext7">Parsing the Context</a></li>
+<li><a href="#RenderingtheContext8">Rendering the Context</a></li>
+<li><a href="#APrototypeContextRenderer9">A Prototype Context Renderer</a></li>
+<li><a href="#NotificationofFieldValueChanges10">Notification of Field Value Changes</a></li>
+</ul>
+<li><a href="#ContextualDatainRelationwithOtherContexts11">Contextual Data in Relation with Other Contexts</a></li>
+<ul>
+<li><a href="#ContextsCanHaveContexts12">Contexts Can Have Contexts</a></li>
+<li><a href="#ContextualAbstraction13">Contextual Abstraction</a></li>
+<li><a href="#ContextualRelationship-ASimpleExample14">Contextual Relationship - A Simple Example</a></li>
+<li><a href="#ContextualRelationship-AMoreInterestingExample15">Contextual Relationship - A More Interesting Example</a></li>
+<li><a href="#WheretheAbstractionsandRelationshipsareDeclaredisImportant16">Where the Abstractions and Relationships are Declared is Important</a></li>
+<li><a href="#&quot;Or&quot;and&quot;And&quot;Relationships17">&quot;Or&quot; and &quot;And&quot; Relationships</a></li>
+<li><a href="#ValidatingContextRelationships18">Validating Context Relationships</a></li>
+</ul>
+<li><a href="#PersistingContextualData19">Persisting Contextual Data</a></li>
+<ul>
+<li><a href="#TheContextValueClass20">The ContextValue Class</a></li>
+<li><a href="#CreatingAContextValue21">Creating A ContextValue</a></li>
+<li><a href="#ExampleofPersistingContextualValues22">Example of Persisting Contextual Values</a></li>
+<li><a href="#CreatingaNewContextFromtheBrowser23">Creating a New Context From the Browser</a></li>
+</ul>
+<li><a href="#SearchingContextualData24">Searching Contextual Data</a></li>
+<ul>
+<li><a href="#EmployeeandAddressBookContexts25">Employee and Address Book Contexts</a></li>
+<li><a href="#ViewingSearchResults26">Viewing Search Results</a></li>
+<ul>
+<li><a href="#BehindtheScenes-BuildingtheContextInstance27">Behind the Scenes - Building the Context Instance</a></li>
+<li><a href="#AnInterestingArtifact28">An Interesting Artifact</a></li>
+</ul>
+</ul>
+<li><a href="#Multi-RowContexts29">Multi-Row Contexts</a></li>
+<li><a href="#TheFlawInContextRelationships30">The Flaw In Context Relationships</a></li>
+<ul>
+<li><a href="#Top-DownDisassociations31">Top - Down Disassociations</a></li>
+<li><a href="#Bottom-UpDisassociations32">Bottom - Up Disassociations</a></li>
+<li><a href="#RecursiveAssociations33">Recursive Associations</a></li>
+<li><a href="#TheTwoReasonsWe'reEncounteringTheseDisassociations34">The Two Reasons We're Encountering These Disassociations</a></li>
+<ul>
+<li><a href="#ContextsAreBidirectional35">Contexts Are Bidirectional</a></li>
+<li><a href="#LackofUniqueKey36">Lack of Unique Key</a></li>
+</ul>
+<li><a href="#SolvingtheDisassociatedContextProblem37">Solving the Disassociated Context Problem</a></li>
+<ul>
+<li><a href="#RevisitingSearching38">Revisiting Searching</a></li>
+</ul>
+</ul>
+<li><a href="#Conclusion39">Conclusion</a></li>
+<ul>
+<li><a href="#DistributedComputingandContextualData40">Distributed Computing and Contextual Data</a></li>
+<li><a href="#FurtherReading41">Further Reading</a></li>
+<li><a href="#FoundonGitHub42">Found on GitHub</a></li>
+<li><a href="#FutureWork43">Future Work</a></li>
+<li><a href="#References44">References</a></li>
+</ul>
+</ul>
+
+<h2><a name="Introduction0">Introduction</a></h2>
+<p>This is a concept piece that resulted from another article that I'm still 
+writing on context and meaning.&nbsp; The fundamental idea is to preserve the 
+context to which data is associated.&nbsp; In this article, I'll describe an 
+approach that is highly declarative and demonstrates creating, managing, and 
+searching contextual data.&nbsp; The goal here is to investigate how to work 
+with contextual data and to look at some of the pros and cons of this concept.&nbsp; 
+To my surprise, my small research efforts into finding implementations for 
+working with contextual data yielded essentially nothing except for some 
+articles indicating how important context is when analyzing data and working 
+with &quot;big data.&quot;&nbsp; What I did find (see Further Reading at the 
+end) indicates that this field is very much still in an academic realm.</p>
+<h3><a name="VideosOfInterest1">Videos Of Interest</a></h3>
+<p>A brief but worthwhile video (even if it is rather abstract):
+<a href="https://www.youtube.com/watch?v=A68qFLmkA24">
+https://www.youtube.com/watch?v=A68qFLmkA24</a> </p>
+<p>A really fun video 
+to watch: <a href="https://www.youtube.com/watch?v=rWDIkfpbTmQ">
+https://www.youtube.com/watch?v=rWDIkfpbTmQ</a> </p>
+<h3><a name="RegardingtheExamplesandDataIsolation2">Regarding the Examples and Data Isolation</a></h3>
+<p>In the discussion that follows, each example is implemented in its own 
+namespace and can be rendered through the indicatedURL, for example: <code>
+<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example8.EmployeeContext">http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example8.EmployeeContext</a> </code>
+These are of course localhost URL's, so you'll have to build run the application 
+in order to play around with the examples.&nbsp; You can find the examples in 
+the &quot;Examples&quot; folder (isn't that amazing.)&nbsp; Each example, in order to 
+provide isolation from the other examples, <i>is in its own namespace</i>.&nbsp; Because 
+context values are associated with the class types <i>qualified by their 
+namespace</i>, values that you enter in one example are not available in another 
+example!</p>
+<h3><a name="AbouttheDownload3">About the Download</a></h3>
+<p>The code base utilizes my own web server architecture based on semantic 
+publisher/subscriber, which you can read in my series of articles
+<a href="https://www.codeproject.com/Articles/1120520/The-Clifton-Method-Part-IV">
+The Clifton Method</a>.&nbsp; Unfortunately, that series of articles does not 
+discuss the actual web server implementation, which is essentially a set of 
+micro-services again implemented with the semantic publisher/subscriber.&nbsp; 
+Because I'm leveraging a lot of my core library, the source code is not included 
+here, only the DLL's.&nbsp; You can obtain my core library yourself though from
+<a href="https://github.com/cliftonm/clifton">
+https://github.com/cliftonm/clifton</a></p>
+<h2><a name="WhatIsContextualData4">What Is Contextual Data?</a></h2>
+<p>We start with some Google search results:</p>
+<p><i>Contextual data is used to provide more information and context about 
+pieces of data in order to better analyze them.</i><sup>1</sup></p>
+<p><i>Big Data has limited value if not paired with its younger and more 
+intelligent sibling, Context. When looking at unstructured data, for instance, 
+we may encounter the number �31� and have no idea what that number means, 
+whether it is the number of days in the month, the amount of dollars a stock 
+increased over the past week, or the number of items sold today. Naked number 
+�31� could mean anything, without the layers of context that explain who stated 
+the data, what type of data is it, when and where it was stated, what else was 
+going on in the world when this data was stated, and so forth. Clearly, data and 
+knowledge are not the same thing.</i><sup>2</sup></p>
+<p>The above example is interesting because it points out that the value &quot;31&quot; 
+has no context.&nbsp; I want to take this a step further and state that, in many 
+cases, the container (whether a native type or a class) also has no context.&nbsp; 
+This, to me, is an important consideration for the simple fact that if the 
+container has no context, how can the value held by the container have any 
+context?&nbsp; Granted, with languages that support reflection, the context can 
+possibly be gleaned by inspecting the type system, but with this approach, the 
+context is at the mercy of the object model rather than an explicitly declared 
+contextual type system.&nbsp; </p>
+<h3><a name="Value,Container,andContext5">Value, Container, and Context</a></h3>
+<p>When we talk about contextual data, we're really dealing with three distinct 
+concepts: &quot;value&quot;, &quot;the value's container&quot;, and &quot;container's context.&quot;&nbsp; </p>
+<p><img border="0" src="context-container-value.png" width="273" height="170"></p>
+<p>Here is an example where the container and the value in the container has 
+absolutely no context:</p>
+<pre>string foo;</pre>
+<p>Here is an example of two containers that have an implied context because 
+they are wrapped by an outer container:</p>
+<pre>class PersonName
+{
+  public string FirstName {get; set;}
+  public string LastName {get; set;}
+}</pre>
+<p>This is &quot;weak&quot; context because when we do this:</p>
+<pre>Person person = new Person() {FirstName=&quot;Marc&quot;, LastName=&quot;Clifton&quot;};
+string firstName = person.FirstName;</pre>
+<p>the assignment of the &quot;container&quot; <code>firstName</code> completely loses the context in 
+which it exists -- that it is part of a <code>PersonName</code>.</p>
+<h3><a name="WhatWouldThisLookLikeasaContextGraph6">What Would This Look Like as a Context Graph?</a></h3>
+<p>If we want to preserve the context in the above example, we could create a 
+Domain Specific Language (DSL) to express declaratively the above class model.&nbsp; 
+Because the DSL is expressed in C# syntax, one implementation would look like 
+this:</p>
+<pre>class FirstName : IValueEntity { }
+class LastName : IValueEntity { } 
+
+public class PersonNameContext : Context
+{
+  public PersonNameContext()
+  {
+    Declare&lt;FirstName&gt;().OneAndOnlyOne();
+    Declare&lt;LastName&gt;().OneAndOnlyOne();
+  }
+}</pre>
+<p>Notice a few things:</p>
+<ul>
+	<li>The fields for first and last name are declared as empty classes to 
+	establish a strongly named type.&nbsp; The actual underlying data type is 
+	not even provided!</li>
+	<li>We use an empty interface <code>IValueEntity</code> to express the idea that the type 
+	is a value type.</li>
+	<li>The concrete context <code>PersonName</code> is derived from a common 
+	<code>Context</code> class.&nbsp; We do this so that the constructor can call the <code>Declare</code> 
+	method in the <code>Context</code> base class.</li>
+	<li>We can also specify the cardinality of an entity within a context.&nbsp; 
+	Here, first and last name can only occur once.&nbsp; Other cardinalities 
+	include:<ul>
+	<li>OneOrMore</li>
+	<li>ZeroOrOne</li>
+	<li>ZeroOrMore</li>
+	<li>Exactly</li>
+	<li>Min</li>
+	<li>Max</li>
+</ul>
+	</li>
+	<li>Because the DSL does not use Attribute metadata, the declaration must be 
+	instantiated in order to be parsed.&nbsp; There are pros and cons to this 
+	approach.&nbsp; It isn't a true syntax but is also doesn't require the use 
+	of reflection to build the context-graph.&nbsp; Instead, concrete contexts 
+	are instantiated that maintain their own context-graph.&nbsp; This (perhaps) 
+	helps to simplify the parser implementation.&nbsp; The point here is not to 
+	get overly hung up on implementation but just look at this as one possible 
+	approach.</li>
+</ul>
+<h3><a name="ParsingtheContext7">Parsing the Context</a></h3>
+<p>Parsing a context involves taking contexts and their fields and grouping them 
+into logic groups.&nbsp; I'll explain this more later, but for now, let's look 
+at the resulting output of the parser:</p>
+<p>URL: 
+<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example1.PersonNameContext">http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example1.PersonNameContext</a> </p>
+<p><img border="0" src="parser1.png" width="554" height="137"></p>
+<p>Here the parser determines that there is a single context group &quot;PersonName&quot; 
+that does not have any relationships to other context (more on that shortly.)&nbsp; 
+The group has the fields &quot;FirstName&quot; and &quot;LastName&quot;.</p>
+<h3><a name="RenderingtheContext8">Rendering the Context</a></h3>
+<p>We also know enough about the context that we can render it in a browser:</p>
+<p><img border="0" src="render1.png" width="298" height="101"></p>
+<p>We can even add a title to the edit box that lets us view the context of the 
+field:</p>
+<p><img border="0" src="render2.png" width="285" height="123"></p>
+<p>This is a useful way of visually inspecting complicated contexts.</p>
+<h3><a name="APrototypeContextRenderer9">A Prototype Context Renderer</a></h3>
+<p>The context HTML is created programmatically and I put together a prototype 
+implementation.&nbsp; There's a lot of options when auto-rendering contexts that 
+in the following code are not explored.&nbsp; Regardless, the code provides an 
+early peek at what the parser is doing, how the contexts, fields, and 
+cardinality is managed, and how HTML <code>class</code> and <code>id</code> attributes are created, as 
+well as custom attributes, for persisting value changes.&nbsp; There are also 
+many extension methods tacked on to <code>StringBuilder</code> to facilitate a fluent style 
+for creating the HTML.&nbsp; This is pure Javascript -- no jQuery, Bootstrap, or 
+MVVM framenwork is used.&nbsp; Some comments are off topic but may be amusing.</p>
+<pre>protected string CreatePage(Parser parser)
+{
+  StringBuilder sb = new StringBuilder();
+  sb.StartHtml();
+  sb.StartHead().Script(&quot;/js/wireUpValueChangeNotifier.js&quot;).EndHead();
+  sb.StartBody();
+
+  foreach(var group in parser.Groups)
+  {
+    // Bizarre alternatives:
+    //(group.ContextPath.Count() == 0 ? new Action(()=&gt;sb.StartDiv()) : new Action(()=&gt;sb.StartInlineDiv()))();
+    //var throwAway = group.ContextPath.Count() == 0 ? sb.StartDiv() : sb.StartInlineDiv();
+
+    // Topmost contexts are always on a new row.
+    if (group.ContextPath.Count() == 0)
+    {
+      sb.StartDiv();
+    }
+    else
+    {
+      sb.StartInlineDiv();
+    }
+
+    if (group.Relationship.GetType() != typeof(NullRelationship))
+    {
+      if (group.Relationship.Maximum &lt; 5)
+      {
+        for (int i = 0; i&lt;group.Relationship.Maximum; i++)
+        {
+          sb.StartDiv();
+          CreateFieldset(sb, group, i);
+          sb.EndDiv();
+        }
+      }
+      else
+      {
+        // TODO: Some arbitrary cutoff would change the fieldset to use a grid instead of discrete text input's.
+        // CreateGrid(sb, group);
+        CreateFieldset(sb, group);
+      }
+    }
+    else
+    {
+      CreateFieldset(sb, group);
+    }
+
+    sb.EndDiv();
+    sb.Append(&quot;\r\n&quot;);
+  }
+
+  sb.StartScript().Javascript(&quot;(function() {wireUpValueChangeNotifier();})();&quot;).EndScript();
+  sb.EndBody().EndHtml();
+
+  return sb.ToString();
+}
+
+protected void CreateFieldset(StringBuilder sb, Group group, int recNum = 0)
+{
+  sb.StartFieldSet().Legend(group.Name);
+  sb.StartTable();
+
+  foreach (var field in group.Fields)
+  {
+    field.CreateInstance();
+    sb.StartRow();
+
+    sb.StartColumn().
+        AppendLabel(field.Label + &quot;:&quot;).
+        NextColumn().
+        AppendTextInput().
+        Class(&quot;contextualValue&quot;).
+        ID(String.Join(&quot;.&quot;, field.ContextPath.Select(p =&gt; p.InstanceId))).
+        CustomAttribute(&quot;contextPath&quot;, String.Join(&quot;|&quot;, field.ContextPath.Select(p=&gt;p.Type.AssemblyQualifiedName))).
+        CustomAttribute(&quot;recordNumber&quot;, recNum.ToString()).
+        // Not as pretty as a real tooltip, but works well.
+        // Also see: https://www.w3schools.com/howto/howto_css_tooltip.asp
+        CustomAttribute(&quot;title&quot;, String.Join(&quot;&amp;#013;&amp;#010;&quot;, field.ContextPath.Select(p =&gt; p.Type.Name))).
+        // CustomAttribute(&quot;title&quot;, String.Join(&quot;&amp;#013;&amp;#010;&quot;, field.ContextPath.Select(p =&gt; p.InstanceId))).
+        EndColumn();
+
+    sb.EndRow();
+  }
+
+  sb.EndTable();
+  sb.EndFieldSet();
+  sb.Append(&quot;\r\n&quot;);
+}
+</pre>
+<h3><a name="NotificationofFieldValueChanges10">Notification of Field Value Changes</a></h3>
+<p>The supporting Javascript POST's any change to the field value when the field 
+loses focus:</p>
+<pre>function wireUpValueChangeNotifier() {
+  var docInputs = document.getElementsByClassName(&quot;contextualValue&quot;);
+  for (var i = 0; i &lt; docInputs.length; i++) {
+    var id = docInputs[i].id;
+    (function closure(id) {
+      var docInput = document.getElementById(id);
+      docInput.onchange = function () {
+      updateField(id);
+    };
+   })(id);
+ }
+}
+
+function updateField(id) {
+  var docInput = document.getElementById(id);
+  var val = docInput.value;
+  var contextPath = docInput.getAttribute(&quot;contextPath&quot;);
+  var recordNumber = docInput.getAttribute(&quot;recordNumber&quot;);
+  console.log(val + &quot; &quot; + contextPath + &quot;[&quot; + recordNumber + &quot;]&quot;);
+  post(&quot;/updateField&quot;, {value: val, id: id, typePath : contextPath, recordNumber : recordNumber})
+}
+
+function post(url, data) {
+  return fetch(url, { method: &quot;POST&quot;, body: JSON.stringify(data) });
+}</pre>
+<h2><a name="ContextualDatainRelationwithOtherContexts11">Contextual Data in Relation with Other Contexts</a></h2>
+<p>Like object oriented programming (OOP), contexts can have containment 
+relationships (the &quot;has a&quot; example above) and abstractions.&nbsp; Unlike some 
+OOP languages like C#, multiple abstractions (as in, multiple inheritance) can 
+be supported.&nbsp; Furthermore, context can have one-to-many and many-to-many 
+relationships for which OOP does not provide a native syntactical expression but 
+which we can easily express with our declarative DSL.</p>
+<h3><a name="ContextsCanHaveContexts12">Contexts Can Have Contexts</a></h3>
+<p>URL: 
+<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example2.PersonContext">http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example2.PersonContext</a> </p>
+<p>One of the fundamental concept of contexts is that they are hierarchical -- a 
+context can contain a context.&nbsp; For example, a &quot;Person&quot; context contains 
+(has a) &quot;PersonName&quot; context:</p>
+<pre>public class PersonContext : Context
+{
+  public PersonContext()
+  {
+    Declare&lt;PersonNameContext&gt;().OneAndOnlyOne();
+  }
+}</pre>
+<p>Notice how the context graph changes:</p>
+<p>Previous:</p>
+<p><img border="0" src="parser1.png" width="554" height="137"></p>
+<p>Now:</p>
+<p><img border="0" src="parser2.png" width="620" height="153"></p>
+<p>Notice also that the rendering of the &quot;Person&quot; context doesn't visually look 
+much different.&nbsp; However, the context graph for the fields now consists of 
+three levels:</p>
+<ol>
+	<li>Root context (PersonContext)</li>
+<li>Sub-context (PersonNameContext)</li>
+<li>The field context (FirstName and LastName)</li>
+</ol>
+<p><img border="0" src="render3.png" width="303" height="137"></p>
+<h3><a name="ContextualAbstraction13">Contextual Abstraction</a></h3>
+<p>Abstractions are a slippery slope -- too often an abstraction is used as a 
+convenient way to create common properties and behaviors between a set of 
+sub-classes.&nbsp; These &quot;logic&quot; abstractions, created for the convenience of 
+the programmer, are quite useful in OOP.&nbsp; However, contextual abstraction 
+needs to be much more &quot;pure&quot; - it must represent an actual meaningful 
+abstraction, not just a convenient abstraction.&nbsp; An OOP abstraction is too 
+loosey-goosey: the sub-class can choose what properties and methods are of 
+value, what methods get overridden, even what methods are no longer appropriate 
+and if called result in an exception!&nbsp; A contextual abstraction must be 
+very carefully thought out.&nbsp; First, we must realize that contextual 
+abstraction results in the inheriting of<i> attributes </i>(or qualities) of the 
+context, <i>not behaviors</i>.&nbsp; </p>
+<p>Until robots become employees, we can say that an employee inherits all the 
+attributes of a person -- an employee <i>is a kind of</i> person.&nbsp; We can 
+express this in our DSL like this:</p>
+<pre>class EmployeeContext : Context
+{
+  public EmployeeContext()
+  {
+    AddAbstraction&lt;EmployeeContext, PersonContext&gt;(&quot;Employee Name&quot;);
+  }
+}</pre>
+<p>URL: 
+<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example3.EmployeeContext">http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example3.EmployeeContext</a> </p>
+<p>Notice how this rendered:</p>
+<p><img border="0" src="render4.png" width="298" height="142"></p>
+<p>Let's add an employee ID to the parent context so we can explore this a bit 
+further:</p>
+<pre>class EmployeeId : IValueEntity { }
+
+class EmployeeContext : Context
+{
+  public EmployeeContext()
+  { 
+    Declare&lt;EmployeeId&gt;().OneAndOnlyOne();
+    AddAbstraction&lt;EmployeeContext, PersonContext&gt;(&quot;Employee Name&quot;);
+  }
+}</pre>
+<p>URL: 
+<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example4.EmployeeContext">http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example4.EmployeeContext</a> </p>
+<p><img border="0" src="render5.png" width="314" height="167"></p>
+<p>Here's what the parser is doing:</p>
+<p><img border="0" src="parser3.png" width="850" height="278"></p>
+<p>It's creating two groupings, one for the root context &quot;EmployeeContext&quot; and 
+one for the abstraction &quot;PersonContext.&quot;&nbsp; There are times when we want this 
+behavior (particularly if the abstractions have the same fields) and times when 
+we would rather coalesce the abstraction into the group of fields in the 
+sub-class.&nbsp; We can specify the coalescing like this:</p>
+<pre>class EmployeeContext : Context
+{
+  public EmployeeContext()
+  {
+    Declare&lt;EmployeeId&gt;().OneAndOnlyOne();
+    AddAbstraction&lt;EmployeeContext, PersonContext&gt;(&quot;Employee Name&quot;).Coalesce();
+  }
+}</pre>
+<p>Note the additional method call <code>Coalesce</code>.&nbsp; </p>
+<p>URL: 
+<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example5.EmployeeContext">http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example5.EmployeeContext</a> </p>
+<p>The result is 
+now more what we probably want:</p>
+<p><img border="0" src="render6.png" width="312" height="130"></p>
+<p>What's important to note here is that the contextual path is still the same, 
+regardless of the fact that the abstraction has been coalesced into the same 
+group:</p>
+<p><img border="0" src="parser4.png" width="849" height="196"></p>
+<p><img border="0" src="path1.png" width="313" height="180"></p>
+<p>Behind the scenes, the way an abstraction is drilled into is changed slightly 
+when an abstraction is coalesced:</p>
+<pre>protected void DrillIntoAbstraction(Stack&lt;ContextPath&gt; contextPath, IContext context, Group group, AbstractionDeclaration abstraction)
+{
+  LogEntityType(abstraction.SuperType);
+  LogRelationship(abstraction.SubType, abstraction.SuperType);
+
+  if (abstraction.SuperType.HasBaseClass&lt;Context&gt;())
+  {
+    Log?.Invoke(&quot;Abstraction: Drilling into &quot; + abstraction.SuperType.Name);
+    // Create the context so we can explore its declarations of entities, relationships, abstractions, and semantic types (native types.)
+    IContext superContext = (IContext)Activator.CreateInstance(abstraction.SuperType);
+    var rootEntities = superContext.RootEntities;
+
+    if (rootEntities.Count() &gt; 0)
+    {
+      Group group2 = group;
+
+      if (!abstraction.ShouldCoalesceAbstraction)
+      {
+        group2 = CreateGroup(abstraction.SuperType, RelationshipDeclaration.NullRelationship, contextPath, abstraction.Label);
+        groups.Add(group2);
+      }
+
+      foreach (var root in rootEntities)
+      {
+        contextPath.Push(new ContextPath(ContextPath.ContextPathType.Abstraction, abstraction.SuperType));
+        CreateFields(contextPath, superContext, group2);
+        PopulateGroupFields(contextPath, superContext, group2, root);
+        contextPath.Pop();
+      }
+    }
+  }
+}</pre>
+<h3><a name="ContextualRelationship-ASimpleExample14">Contextual Relationship - A Simple Example</a></h3>
+<p>Abstraction is generic relationship that minimally conveys the meaning that 
+the sub-context is a more specialized version of the super-context.&nbsp; 
+Sometimes we want an explicit relationship between two contexts.&nbsp; In this 
+example, the relationship between the &quot;Employee&quot; context and the &quot;Person&quot; 
+context is declared as an explicit relationship rather than an abstraction:</p>
+<pre>class PersonNameRelationship : IRelationship { }
+
+class EmployeeContext : Context
+{
+  public EmployeeContext()
+  {
+    Declare&lt;EmployeeId&gt;().OneAndOnlyOne();
+    Declare&lt;PersonNameRelationship, EmployeeContext, PersonContext&gt;(&quot;Person Name&quot;).Exactly(1).Coalesce();
+  }
+}</pre>
+<p>Notice the declaration of a type that implements <code>IRelationship</code>.&nbsp; There 
+is no content, this is just a type declaration (this would be more natural in a 
+Functional Programming language.)&nbsp; </p>
+<p>URL: 
+<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example6.EmployeeContext">http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example6.EmployeeContext</a> </p>
+<p>Physically, the result is the same:</p>
+<p><img border="0" src="render7.png" width="309" height="125"></p>
+<p>Notice however how the context path has changed:</p>
+<p>Before:</p>
+<p><img border="0" src="parser4.png" width="849" height="196"></p>
+<p>Now:</p>
+<p><img border="0" src="parser5.png" width="857" height="217"></p>
+<h3><a name="ContextualRelationship-AMoreInterestingExample15">Contextual Relationship - A More Interesting Example</a></h3>
+<p>Taking the &quot;Employee&quot; example above, let's instead create a relationship with 
+an &quot;emergency contact&quot;, requiring that at least one but at most two emergency 
+contacts are provided:</p>
+<pre>class EmergencyContactRelationship : IRelationship { }
+
+class EmployeeContext : Context
+{
+  public EmployeeContext()
+  {
+    Declare&lt;EmployeeId&gt;().OneAndOnlyOne();
+    AddAbstraction&lt;EmployeeContext, PersonContext&gt;(&quot;Employee Name&quot;).Coalesce();
+    Declare&lt;EmergencyContactRelationship, EmployeeContext, PersonContext&gt;(&quot;Emergency Contact&quot;).Min(1).Max(2);
+  }
+}</pre>
+<p>URL: 
+<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example7.EmployeeContext">http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example7.EmployeeContext</a> </p>
+<p>Notice here that we are declaring a relationship of type <code>EmergencyContactRelationship</code> 
+between the <code>EmployeeContext</code> and a <code>PersonContext</code>.&nbsp; 
+We're not explicitly creating an &quot;EmergencyContextPerson&quot; container -- it is 
+&quot;understood&quot; that these people are emergency contacts because of the <i>
+contextual relationship</i>.&nbsp; When rendered (let's have a little fun with 
+denoting required fields):</p>
+<p><img border="0" src="render8.png" width="348" height="304"></p>
+<p>Notice when we hover over the Last Name field, we see that the field value is 
+associated with an emergency contact via the relationship.&nbsp; Alternatively, 
+you could do this:</p>
+<p>URL: 
+<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example8.EmployeeContext">http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example8.EmployeeContext</a> </p>
+<pre>class EmergencyContactContext : Context
+{
+  public EmergencyContactContext()
+  {
+    AddAbstraction&lt;EmergencyContactContext, PersonContext&gt;(&quot;Contact Name&quot;).Coalesce();
+  }
+}
+
+class EmployeeContext : Context
+{
+  public EmployeeContext()
+  {
+    Declare&lt;EmployeeId&gt;().OneAndOnlyOne();
+    AddAbstraction&lt;EmployeeContext, PersonContext&gt;(&quot;Employee Name&quot;).Coalesce();
+    Declare&lt;EmergencyContactRelationship, EmployeeContext, EmergencyContactContext&gt;(&quot;Emergency Contact&quot;).Min(1).Max(2);
+  }
+}</pre>
+<p>Note how we now have a concrete context for the emergency contact.&nbsp; 
+Visually, the fields are rendered the same, except we now have an additional 
+path entry in the context:</p>
+<p><img border="0" src="render9.png" width="378" height="306"></p>
+<h3><a name="WheretheAbstractionsandRelationshipsareDeclaredisImportant16">Where the Abstractions and Relationships are Declared is Important</a></h3>
+<p>Each context manages its own abstractions and relationships.&nbsp; Even if a 
+context does not itself declare an abstraction or a relationship, the containing 
+(super-) context can do so.&nbsp; In this example, the <code>EmergencyContactContext</code> has been 
+renamed to <code>EmergencyContact</code> because it is no longer a context and it is declared as a simple entity 
+rather than a context.&nbsp; The containing <code>EmployeeContext</code> 
+declares the abstraction on the entity:</p>
+<pre>class EmergencyContact : IEntity { }
+
+class EmployeeContext : Context
+{
+  public EmployeeContext()
+  {
+    Declare&lt;EmployeeId&gt;().OneAndOnlyOne();
+    Declare&lt;EmergencyContactRelationship, EmployeeContext, EmergencyContact&gt;(&quot;Emergency Contact&quot;).Min(1).Max(2);
+    AddAbstraction&lt;EmployeeContext, PersonContext&gt;(&quot;Employee Name&quot;).Coalesce();
+    AddAbstraction&lt;EmergencyContact, PersonContext&gt;(&quot;Contact Name&quot;).Coalesce();
+  }
+}</pre>
+<p>While the resulting rendering looks identical to the user, the contextual 
+path is similar to the first example:</p>
+<p>URL: 
+<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example9.EmployeeContext">http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example9.EmployeeContext</a> </p>
+<p><img border="0" src="context1.png" width="341" height="307"></p>
+<p>What's important here is that by itself, <code>EmergencyContext</code> does not declare 
+any abstractions or relationships -- the super-context <code>EmployeeContext</code> adds 
+additional contexts to the entity (which can also be another context.)&nbsp; 
+Therefore, while you can extend a sub-context in the declaration of a 
+super-context, one should only do this if there is additional contextual meaning 
+required by the super-context.&nbsp; Otherwise, the sub-context should have 
+declared the relationship/abstraction.&nbsp; So, this illustrates what you 
+should <i>not</i> do.</p>
+<h3><a name="&quot;Or&quot;and&quot;And&quot;Relationships17">&quot;Or&quot; and &quot;And&quot; Relationships</a></h3>
+<p>We can chain contexts in a relationship together with <code>Or</code> and <code>And</code> fluent 
+methods.&nbsp; These operators are applied to the left operand, meaning that:</p>
+<pre>a or b or c and d and e</pre>
+<p>evaluates as:</p>
+<pre>(a or b) or (a or c) and (a and d and e)</pre>
+<p>which might be better expressed as:</p>
+<ul>
+	<li>a, d and e are required.</li>
+<li>b and c are optional and non-exclusive.</li>
+</ul>
+<p>OK, shoot me now for coming up with this crazy scheme.&nbsp; It is definitely 
+something ripe for refactoring to have a proper expression evaluation 
+implemented, but this suits my purposes now for a prototype.</p>
+<p>For example, the life insurance policy that the employer carries for the 
+employee might list a person or a non-profit business or both as beneficiaries:</p>
+<pre>Declare&lt;Beneficiary, EmployeeContext, PersonContext&gt;(&quot;Beneficiary&quot;).Or&lt;BusinessContext&gt;();</pre>
+<p>These declarations:</p>
+<pre>class BusinessName : IValueEntity { }
+
+public class BusinessContext : Context
+{
+  public BusinessContext()
+  {
+    Declare&lt;BusinessName&gt;().OneAndOnlyOne();
+  }
+}
+
+public class EmployeeContractContext : Context
+{
+  public EmployeeContractContext()
+  {
+    Label = &quot;Employee Contract&quot;;
+    Declare&lt;EmployeeContext&gt;(&quot;Employee&quot;).OneAndOnlyOne();
+    Declare&lt;EmergencyContactRelationship, EmployeeContext, PersonContext&gt;(&quot;Emergency Contact&quot;).Min(1).Max(2);
+    Declare&lt;Beneficiary, EmployeeContext, PersonContext&gt;(&quot;Beneficiary&quot;).Or&lt;BusinessContext&gt;();
+  }
+}</pre>
+<p>renders like this:</p>
+<p>URL: 
+<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example10.EmployeeContractContext">http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example10.EmployeeContractContext</a> </p>
+<p><img border="0" src="render10.png" width="896" height="304"></p>
+<h3><a name="ValidatingContextRelationships18">Validating Context Relationships</a></h3>
+<p>The relationships (including the abstractions) can be validated.&nbsp; For 
+example, this context declares abstractions for entities that are not part of 
+its context:</p>
+<pre>public class EmployeeContractContext : Context
+{
+  public EmployeeContractContext()
+  {
+    Label = &quot;Employee Contract&quot;;
+    Declare&lt;EmployeeContext&gt;(&quot;Employee&quot;).OneAndOnlyOne();
+
+    AddAbstraction&lt;Spouse, PersonContext&gt;(&quot;Spouse Name&quot;);
+    AddAbstraction&lt;Child, PersonContext&gt;(&quot;Child Name&quot;);
+  }
+}</pre>
+<p>Here the context declares abstractions (<code>PersonContext</code>) for two 
+contexts, <code>Spouse</code> and <code>Child</code>, that are never declared as entities or relationships to the 
+<code>EmployeeContractContext</code>.&nbsp; The browser displays this error:</p>
+<p><img border="0" src="badDecl1.png" width="345" height="79"></p>
+<h2><a name="PersistingContextualData19">Persisting Contextual Data</a></h2>
+<p>Note to the reader -- this section becomes a bit more interactive as I show 
+the code changes that I am making to support the additional behaviors.</p>
+<p>One of the features of contextual data is that the context is easily 
+extended, particularly at runtime, without breaking existing behaviors.&nbsp; 
+Adding a relationship or abstraction to <i>your</i> version of a context doesn't 
+break how another person is using the context.&nbsp; Because of the dynamic 
+nature of a contexts, a relational database is not appropriate as the schema 
+would have to be constantly modified.&nbsp; Granted, a relational database can 
+be used as a &quot;meta-base&quot; for contextual data, but certainly concrete context 
+structure cannot be encoded into a relational database's schema.&nbsp; A NoSQL 
+database may be more appropriate as it is usually schema-less.&nbsp; Ultimately 
+though, contextual data is actually very flat.&nbsp; While it is useful to 
+represent a context as a hierarchy, the actual context data is essentially a 
+flat key-value pair relationship:</p>
+<pre>unique context path : value</pre>
+<p>A &quot;unique context path&quot; is determined by assigning a GUID to each entity in 
+the path.&nbsp; The tree structure is formed when entities (sub-contexts and 
+field-level entities) are duplicated according to the cardinality of the entity, 
+where each branch gets a unique ID. </p>
+<h3><a name="TheContextValueClass20">The ContextValue Class</a></h3>
+<p>The key-value pair is managed by the 
+<code>ContextValue</code> class: </p>
+<pre>public class ContextValue
+{
+  public Guid InstanceId { get; protected set; }
+  public string Value { get; protected set; }
+  public int RecordNumber { get; protected set; }
+
+  public IReadOnlyList&lt;Guid&gt; InstancePath { get { return instancePath; } }
+  public IReadOnlyList&lt;Type&gt; TypePath { get { return typePath; } }
+
+  protected List&lt;Guid&gt; instancePath = new List&lt;Guid&gt;();
+  protected List&lt;Type&gt; typePath = new List&lt;Type&gt;();
+
+  public ContextValue(string value, List&lt;Guid&gt; instancePath, List&lt;Type&gt; typePath, int recordNumber = 0)
+  {
+    InstanceId = instancePath.Last();
+    Value = value;
+    RecordNumber = recordNumber;
+    this.instancePath = instancePath;
+    this.typePath = typePath;
+  }
+}</pre>
+<p>Notice that we're keeping track of the &quot;record number.&quot;&nbsp;&nbsp; For 
+contexts with cardinality &gt; 1 with multiple child entities, we need the record 
+number to ensure that sub-entities maintain their cohesion in the context path.</p>
+<h3><a name="CreatingAContextValue21">Creating A ContextValue</a></h3>
+<p>A ContextValue can be created either directly from the parser (from a unit 
+test):</p>
+<pre>var cvFirstName = searchParser.CreateValue&lt;PersonNameContext, FirstName&gt;(&quot;Marc&quot;);
+var cvLastName = searchParser.CreateValue&lt;PersonNameContext, LastName&gt;(&quot;Clifton&quot;);</pre>
+<p>&nbsp;or created and persisted in the <code>ContextValueDictionary</code> 
+(also from a unit test):</p>
+<pre>ContextValueDictionary cvd = new ContextValueDictionary();
+cvd.CreateValue&lt;EmployeeName, PersonNameContext, FirstName&gt;(parser1, &quot;Marc&quot;);
+cvd.CreateValue&lt;EmployeeName, PersonNameContext, LastName&gt;(parser1, &quot;Clifton&quot;);</pre>
+<p>When persisted in the dictionary, the context tree is walked <i>by instance 
+ID</i> and missing branches are added as we go:</p>
+<pre>public void AddOrUpdate(ContextValue cv)
+{
+  // Walk the instance/path, creating new nodes in the context tree as required.
+
+  Assert.That(cv.TypePath.Count == cv.InstancePath.Count, &quot;type path and instance path should have the same number of entries.&quot;);
+  ContextNode node = tree;
+
+  for (int i = 0; i &lt; cv.TypePath.Count; i++)
+  {
+    // Walk the tree.
+    var (id, type) = (cv.InstancePath[i], cv.TypePath[i]);
+
+    if (node.TryGetValue(id, out ContextNode childNode))
+    {
+      node = childNode;
+    }
+    else
+    {
+      childNode = new ContextNode(id, type);
+      node.AddChild(childNode);
+      node = childNode;
+
+      // Since we're creating a node, add it to the flat tree view.
+      if (!flatView.TryGetValue(type, out List&lt;ContextNode&gt; nodes))
+      {
+        flatView[type] = new List&lt;ContextNode&gt;();
+      }
+
+      flatView[type].Add(childNode);
+    }
+  }
+
+  // The last entry in the tree gets the actual context value.
+  node.ContextValue = cv;
+}</pre>
+<p>For each node that is created, an entry mapping the entity type to the node 
+is created (this is a one-to-many relationship) which is used to quickly 
+identify the all the nodes that implement a particular entity type.&nbsp; This 
+helps to optimize searching -- rather than walking the entire tree to find <i>
+all</i> matching entity types at different levels of the tree, a quick lookup of 
+the entity type gives us all the nodes in the tree for that type.&nbsp; We'll 
+see this used later on in searches.</p>
+<h3><a name="ExampleofPersistingContextualValues22">Example of Persisting Contextual Values</a></h3>
+<p>The unit test code fragments above demonstrate how to persist a value in a 
+particular context using a known path.&nbsp; Let's look at the more interesting 
+example of persisting values in a contextual instance as entered from the 
+browser.&nbsp; If we inspect the input boxes in a simple context:</p>
+<p>URL: 
+<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example5.EmployeeContext">http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example5.EmployeeContext</a> </p>
+<p><img border="0" src="render6.png" width="312" height="130"></p>
+<p>&nbsp;we see that there are some attributes that are provided when the HTML 
+is created -- here's the one for the EmployeeID input box:</p>
+<pre>&lt;input type=&quot;text&quot; class='contextualValue' 
+  id='acec08ef-0bd3-47de-8bc6-c2281fa291ee.
+      490895ca-c62e-4654-9d3e-41efe482e437' 
+  contextPath='MeaningExplorer.EmployeeContext, MeaningExplorer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null|
+               MeaningExplorer.EmployeeId, MeaningExplorer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'
+  recordNumber='0' 
+  title='EmployeeContext&amp;#013;&amp;#010;EmployeeId'&gt;</pre>
+<p>Notice the dot &quot;.&quot; character that separates the GUID's and the pipe &quot;|&quot; 
+character that separates the context path types.</p>
+<p>When a value is entered, the <code>input</code> element's <code>onchange</code> 
+triggers a POST that is routed to (refer to
+<a href="https://www.codeproject.com/Articles/1120520/The-Clifton-Method-Part-IV">
+The Clifton Method, Part IV</a> for a discussion on semantic processing, 
+membranes, etc.):</p>
+<pre>public void Process(ISemanticProcessor proc, IMembrane membrane, UpdateField msg)
+{
+  ContextValueDictionary cvd = CreateOrGetContextValueDictionary(proc, msg.Context);
+  var instancePath = msg.ID.Split(&quot;.&quot;).Select(Guid.Parse).ToList();
+  var typePath = msg.TypePath.Split(&quot;|&quot;).ToList();
+  var cv = new ContextValue(msg.Value, instancePath, typePath.Select(t=&gt;Type.GetType(t)).ToList(), msg.RecordNumber);
+  cvd.AddOrUpdate(cv);
+  JsonResponse(proc, msg, new OKResponse());
+}</pre>
+<p>We'll modify the post-back to perform a GET that returns the HTML for 
+rendering the dictionary as a tree and the flat &quot;entity type : context node 
+list&quot; collection:</p>
+<pre>function updateField(id) {
+  var docInput = document.getElementById(id);
+  var val = docInput.value;
+  var contextPath = docInput.getAttribute(&quot;contextPath&quot;);
+  var recordNumber = docInput.getAttribute(&quot;recordNumber&quot;);
+  console.log(val + &quot; &quot; + contextPath + &quot;[&quot; + recordNumber + &quot;]&quot;);
+  post(&quot;/updateField&quot;, { value: val, id: id, typePath: contextPath, recordNumber: recordNumber }, getDictionaryHtml);
+}
+
+// We don't care about the /updateField json response.
+function getDictionaryHtml() {
+  get(&quot;/dictionaryTreeHtml&quot;, onDictionaryTreeHtml);
+  get(&quot;/dictionaryNodesHtml&quot;, onDictionaryNodesHtml);
+}
+
+function onDictionaryTreeHtml(json) {
+  updateHtml(&quot;dictionary&quot;, json.html);
+}
+
+function onDictionaryNodesHtml(json) {
+  updateHtml(&quot;nodes&quot;, json.html);
+}
+
+function updateHtml(tag, b64html) {
+  var html = atob(b64html);
+  var el = document.getElementById(tag);
+  el.innerHTML = html;
+}
+
+function get(url, callback) {
+  return fetch(url, { method: &quot;GET&quot; }).then(function (response) {
+    return response.json();
+  }).then(function (jsonData) {
+    callback(jsonData);
+  });
+}
+
+function post(url, data, callback) {
+  return fetch(url, { method: &quot;POST&quot;, body: JSON.stringify(data) }).then(function (response) {
+    return response.json();
+  }).then(function (jsonData) {
+    callback(jsonData);
+  });
+}</pre>
+<p>If you're curious, I added the following to the page rendering logic:</p>
+<pre>sb.StartParagraph().Append(&quot;&lt;b&gt;Dictionary:&lt;/b&gt;&quot;).EndParagraph();
+sb.StartParagraph().StartDiv().ID(&quot;dictionary&quot;).EndDiv().EndParagraph();
+
+sb.StartParagraph().Append(&quot;&lt;b&gt;Type Nodes:&lt;/b&gt;&quot;).EndParagraph();
+sb.StartParagraph().StartDiv().ID(&quot;nodes&quot;).EndDiv().EndParagraph();</pre>
+<p>Now let's see what happens when we fill in the form with some data.&nbsp; 
+First, I'll add an ID:</p>
+<p><img border="0" src="render11a.png" width="314" height="437"></p>
+<p>Then my first name:</p>
+<p><img border="0" src="render11b.png" width="327" height="616"></p>
+<p>And finally my last name:</p>
+<p><img border="0" src="render11.png" width="327" height="654"></p>
+<p>If I change a value for this context, we see that the existing context value 
+is updated:</p>
+<p><img border="0" src="render11c.png" width="327" height="654"></p>
+<p>All this rendering (very basic it is) is created by two route handlers and some helper methods:</p>
+<pre>/// &lt;summary&gt;
+/// Returns HTML rendering the current state of the dictionary tree.
+/// &lt;/summary&gt;
+public void Process(ISemanticProcessor proc, IMembrane membrane, GetDictionaryTreeHtml msg)
+{
+  ContextValueDictionary cvd = CreateOrGetContextValueDictionary(proc, msg.Context);
+  StringBuilder sb = new StringBuilder();
+  NavigateChildren(sb, cvd.Root.Children, 0);
+
+  JsonResponse(proc, msg, new { Status = &quot;OK&quot;, html = sb.ToString().ToBase64String() });
+}
+
+/// &lt;summary&gt;
+/// Returns HTML rendering the current state of the dictionary nodes.
+/// &lt;/summary&gt;
+public void Process(ISemanticProcessor proc, IMembrane membrane, GetDictionaryNodesHtml msg)
+{
+  ContextValueDictionary cvd = CreateOrGetContextValueDictionary(proc, msg.Context);
+  StringBuilder sb = new StringBuilder();
+
+  foreach (var kvp in cvd.FlatView)
+  {
+    sb.Append(kvp.Key.Name + &quot; : &lt;br&gt;&quot;);
+
+    foreach (var node in kvp.Value)
+    {
+      sb.Append(&quot;&amp;nbsp;&amp;nbsp&quot;);
+      RenderNodeValue(sb, node);
+      sb.Append(&quot;&lt;br&gt;&quot;);
+    }
+  }
+
+  JsonResponse(proc, msg, new { Status = &quot;OK&quot;, html = sb.ToString().ToBase64String() });
+}
+
+protected void NavigateChildren(StringBuilder sb, IReadOnlyList&lt;ContextNode&gt; nodes, int level)
+{
+  foreach (var node in nodes)
+  {
+    sb.Append(String.Concat(Enumerable.Repeat(&quot;&amp;nbsp;&quot;, level * 2)));
+    RenderNodeType(sb, node);
+    RenderNodeValue(sb, node);
+    sb.Append(&quot;&lt;br&gt;&quot;);
+    NavigateChildren(sb, node.Children, level + 1);
+  }
+}
+
+protected void RenderNodeType(StringBuilder sb, ContextNode node)
+{
+  sb.Append(node.Type.Name);
+}
+
+protected void RenderNodeValue(StringBuilder sb, ContextNode node)
+{
+  if (node.ContextValue != null)
+  {
+    sb.Append(&quot; = &quot; + node.ContextValue.Value);
+  }
+}</pre>
+<h3><a name="CreatingaNewContextFromtheBrowser23">Creating a New Context From the Browser</a></h3>
+<p>It would be useful to add a &quot;New&quot; button to create a new context.&nbsp; We'll 
+render it before the dictionary output:</p>
+<pre>sb.StartButton().ID(&quot;newContext&quot;).Class(&quot;margintop10&quot;).Append(&quot;New Context&quot;).EndButton();</pre>
+<p>The interesting (or strange) thing about this is that we don't need to 
+tell the server we've created a new context.&nbsp; Instead, the Javascript can 
+handle clearing the input text boxes and assigning new GUID's to the instance 
+paths.&nbsp; As a side note, this does not trigger the <code>onchange</code> event (really 
+bad name for that event) because <code>onchange</code> is triggered only when 
+the user tabs off the control.&nbsp; A minor change is that I needed to add a 
+separate &quot;context value ID&quot; attribute cvid to keep the element ID separate from 
+the context value ID so that the event handler uses the latest context value ID.&nbsp; 
+This required a change in the server-side rendering:</p>
+<pre>CustomAttribute(&quot;cvid&quot;, String.Join(&quot;.&quot;, field.ContextPath.Select(p =&gt; p.InstanceId))).</pre>
+<p>and a tweak to the updateField Javascript function:</p>
+<pre>function updateField(id) {
+  var docInput = document.getElementById(id);
+  var val = docInput.value;
+  var contextPath = docInput.getAttribute(&quot;contextPath&quot;);
+  var recordNumber = docInput.getAttribute(&quot;recordNumber&quot;);
+  var cvid = docInput.getAttribute(&quot;cvid&quot;);
+  console.log(val + &quot; &quot; + contextPath + &quot;[&quot; + recordNumber + &quot;]&quot;);
+  post(&quot;/updateField&quot;, { value: val, id: cvid, typePath: contextPath, recordNumber: recordNumber }, getDictionaryHtml);
+}</pre>
+<p>There's an added complexity to this.&nbsp; Any common base context path such 
+as the <code>PersonContext</code> which contains value entities for <code>FirstName</code> and <code>LastName</code> 
+needs to have the same base ID.&nbsp; If we don't do this, each value entity 
+within a sub-context gets an entirely new context path which results in multiple 
+root-level contexts being created.&nbsp; This is not what we want.&nbsp; To 
+solve this we need to get a collection of all the unique ID's, map them to 
+replacement ID's, and update each ID in the path according to their original 
+value with the new mapped GUID.&nbsp; It sounds more complicated than it 
+actually is.&nbsp; I sure miss C#'s LINQ in these cases.</p>
+<p>Here's the Javascript that handles the field clearing and new 
+context value ID assignments:</p>
+<pre>function wireUpEvents() {
+  document.getElementById(&quot;newContext&quot;).onclick = function () { newContext(); };
+}
+
+function newContext() {
+  clearInputs();
+  createNewGuids();
+}
+
+function clearInputs() {
+  forEachContextualValue(function (id) { document.getElementById(id).value = &quot;&quot;; });
+}
+
+function createNewGuids() {
+  var uniqueIds = getUniqueIds();
+  var idMap = mapToNewIds(uniqueIds);
+  assignNewIds(idMap);
+}
+
+function getUniqueIds() {
+  var uniqueIds = [];
+
+  // Other ways this might be accomplished but I'm too lazy to work out the nuances of 
+  // adding an array of values uniquely to a master array.
+  // <a href="https://stackoverflow.com/questions/1960473/get-all-unique-values-in-an-array-remove-duplicates">https://stackoverflow.com/questions/1960473/get-all-unique-values-in-an-array-remove-duplicates</a>
+  forEachContextualValue(function (id) {
+    var ids = id.split(&quot;.&quot;);
+    for (var i = 0; i &lt; ids.length; i++) {
+      var id = ids[i];
+      if (!uniqueIds.includes(id)) {
+        uniqueIds.push(id);
+      }
+    }
+  });
+
+  return uniqueIds;
+}
+
+function mapToNewIds(uniqueIds) {
+  var idMap = {};
+
+  for (var i = 0; i &lt; uniqueIds.length; i++) {
+    idMap[uniqueIds[i]] = uuidv4();
+  }
+
+  return idMap;
+}
+
+function assignNewIds(idMap) {
+  forEachContextualValue(function (id) {
+    var oldIds = id.split(&quot;.&quot;);
+    var newIds=[];
+
+    for (var i = 0; i &lt; oldIds.length; i++) {
+      newIds.push(idMap[oldIds[i]]);
+    }
+
+    newId = newIds.join(&quot;.&quot;);
+    document.getElementById(id).setAttribute(&quot;cvid&quot;, newId);
+  });
+}</pre>
+<p>Now we let's create a couple contexts for two different &quot;employees&quot; 
+(0001/Marc/Clifton and 0002/Ian/Clifton).&nbsp; When done, this is what the 
+context value dictionary and flattened type node collections look like:</p>
+<p><img border="0" src="render12.png" width="321" height="802"></p>
+<p>Here we see that we have two root level EmployeeContext instances and the 
+context value types have different instances for the different contexts.</p>
+<h2><a name="SearchingContextualData24">Searching Contextual Data</a></h2>
+<p>Now here's the fun part and where working with contextual data really shines: 
+searching!&nbsp; A profound difference in searching is the the <i>search result</i> provides 
+the context for the results. This means that you are effectively searching the 
+entire database for a particular contextual pattern whose values match a given 
+instance.&nbsp; The result are the different contexts in which the specific sub-context 
+data values match.&nbsp; The reason this is so nifty is that you can perform a search 
+within a sub-context and get the matches across all contexts, even contexts of 
+different root types.&nbsp; To illustrate this, I'm going to declare an 
+<code>AddressBookContext</code> that we'll use with the existing <code>EmployeeContext</code> to show how 
+a search of a person's name finds the context instances in both <code>EmployeeContext</code> 
+and <code>AddressBookContext</code>.&nbsp; Along the way, we'll also add the 
+ability to display an existing context's values so that we can see the search 
+results.</p>
+<p>We can use these two URL's for testing:</p>
+<ul>
+	<li>URL for Employee context:
+	<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example6.EmployeeContext">
+	http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example12.EmployeeContext</a></li>
+<li>URL for Address Book context: 
+	<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example12.EmployeeContext">
+http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example12.AddressBookContext</a> 
+</li>
+</ul>
+<h3><a name="EmployeeandAddressBookContexts25">Employee and Address Book Contexts</a></h3>
+<p>The address book context re-uses the <code>PersonContext</code>.&nbsp; I also added a very 
+simple <code>ContactContext</code> that can be extended to be more functional later on, but 
+for now, the <code>AddressBookContext</code> is declared like this:</p>
+<pre>class PhoneNumber : IValueEntity { }
+class EmailAddress : IValueEntity { }
+
+public class PhoneContext : Context
+{
+  public PhoneContext()
+  {
+    Declare&lt;PhoneNumber&gt;(&quot;Phone&quot;);
+  }
+}
+
+public class EmailContext : Context
+{
+  public EmailContext()
+  {
+    Declare&lt;EmailAddress&gt;(&quot;Email&quot;);
+  }
+}
+
+public class ContactContext : Context
+{
+  public ContactContext()
+  {
+    Declare&lt;PhoneContext&gt;();
+    Declare&lt;EmailContext&gt;();
+  }
+}
+
+public class AddressBookContext : Context
+{
+  public AddressBookContext()
+  {
+    Label = &quot;Address Book&quot;;
+    Declare&lt;PersonContext&gt;();
+    Declare&lt;ContactContext&gt;();
+  }
+}
+</pre>
+<p>This renders as:</p>
+<p><img border="0" src="render13.png" width="325" height="153"></p>
+<p>We've been using a route for rendering contexts, let's look briefly at the 
+route handler:</p>
+<pre>public void Process(ISemanticProcessor proc, IMembrane membrane, RenderContext msg)
+{
+  try
+  {
+    Type t = Type.GetType(msg.ContextName);
+    Clifton.Meaning.IContext context = (Clifton.Meaning.IContext)Activator.CreateInstance(t);
+    Parser parser = new Parser();
+    parser.Log = logMsg =&gt; Console.WriteLine(logMsg);
+    parser.Parse(context);
+    string html;
+
+    if (parser.AreDeclarationsValid)
+    {
+      ShowGroups(parser.Groups);
+      html = Renderer.CreatePage(parser, msg.IsSearch ? Renderer.Mode.Search : Renderer.Mode.NewRecord);
+    }
+    else
+    {
+      html = &quot;&lt;p&gt;Context declarations are not valid. Missing entities:&lt;/p&gt;&quot; +
+      String.Join(&quot;&lt;br&gt;&quot;, parser.MissingDeclarations.Select(pt =&gt; pt.Name));
+    }
+
+    proc.ProcessInstance&lt;WebServerMembrane, HtmlResponse&gt;(r =&gt;
+    {
+      r.Context = msg.Context;
+      r.Html = html;
+    });
+  }
+  catch (Exception ex)
+  {
+    proc.ProcessInstance&lt;WebServerMembrane, HtmlResponse&gt;(r =&gt;
+    {
+      r.Context = msg.Context;
+      r.Html = ex.Message + &quot;&lt;br&gt;&quot; + ex.StackTrace.Replace(&quot;\r\n&quot;, &quot;&lt;br&gt;&quot;);
+    });
+  }
+}</pre>
+<p>While rudimentary, it works.&nbsp; Here's a couple examples:</p>
+<p>URL:
+<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example12.EmployeeContext">
+http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example12.PersonContext</a></p>
+<p><img border="0" src="rendercontextEx1.png" width="581" height="282"></p>
+<p>URL:
+<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example12.EmployeeContext">
+http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example12.ContactContext</a></p>
+<p><img border="0" src="renderContextEx2.png" width="588" height="282"></p>
+<p>Notice in these examples we're rendering sub-contexts, which is exactly what 
+we want to do for searches.&nbsp; The only different for searches is that we 
+don't want user inputs to create entries in the context dictionary.&nbsp; For 
+searching, we'll pass in the parameter <code>isSearch=true</code>.&nbsp; When we 
+use this option, notice that the dictionary does not get updated and we have a 
+&quot;Search Context&quot; button instead of a &quot;New Context&quot; button:</p>
+<p>URL:
+<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example12.EmployeeContext">
+http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example12.PersonContext?&amp;isSearch=true</a></p>
+<p><img border="0" src="searchContext1.png" width="671" height="247"></p>
+<p>When the search button is clicked, this Javascript executes:</p>
+<pre>function searchContext() {
+  var searchList = [];
+
+  forEachContextualValue(&quot;contextualValueSearch&quot;, function (id) {
+    var docInput = document.getElementById(id);
+    var val = docInput.value;
+
+    if (val != &quot;&quot;) {
+      var contextPath = docInput.getAttribute(&quot;contextPath&quot;);
+      var cvid = docInput.getAttribute(&quot;cvid&quot;);
+      searchList.push({ value: val, id: cvid, typePath: contextPath });
+    }
+  });
+
+  if (searchList.length &gt; 0) {
+    post(&quot;/searchContext&quot;, { searchFields: searchList }, onShowResults);
+  }}
+}</pre>
+<p>The data is deserialized into this server-side structure:</p>
+<pre>public class SearchField
+{
+  public string Value { get; set; }
+  public string ID { get; set; }
+  public string TypePath { get; set; }
+}
+
+public class SearchContext : SemanticRoute
+{
+  public List&lt;SearchField&gt; SearchFields { get; set; }
+}</pre>
+<p>and processed by this route handler:</p>
+<pre>public void Process(ISemanticProcessor proc, IMembrane membrane, SearchContext msg)
+{
+  List&lt;ContextValue&gt; cvSearch = new List&lt;ContextValue&gt;();
+
+  foreach (var search in msg.SearchFields)
+  {
+    var instancePath = search.ID.Split(&quot;.&quot;).Select(Guid.Parse).ToList();
+    var typePath = search.TypePath.Split(&quot;|&quot;).ToList();
+    var cv = new ContextValue(search.Value, instancePath, typePath.Select(t =&gt; Type.GetType(t)).ToList());
+    cvSearch.Add(cv);
+  }
+
+  ContextValueDictionary cvd = CreateOrGetContextValueDictionary(proc, msg.Context);
+  List&lt;ContextNode&gt; matches = cvd.Search(cvSearch);
+
+  var results = GetMatchPaths(matches);
+  var html = Render(results);
+
+  JsonResponse(proc, msg, new { Status = &quot;OK&quot;, html = html.ToString().ToBase64String() });
+}</pre>
+<p>This route hander constructs <code>ContextValue</code> instances from the filled in data 
+and executes the dictionary's Search method.&nbsp; Again, we'll have the server 
+render the actual HTML.&nbsp; To illustrate the search results, I'll create an 
+entry in the employee context and the address book context that have the same 
+name (Marc Clifton) and then search for &quot;Marc&quot;.&nbsp; The result, as 
+expected (since I wrote the unit test for this first) is:</p>
+<p>URL:
+<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example12.EmployeeContext">
+http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example12.AddressBookContext&amp;isSearch=true</a>
+</p>
+<pre><img border="0" src="searchContext2.png" width="304" height="336"></pre>
+<p>We see that both contexts in which the first name matches have been returned.&nbsp; 
+I could have provided &quot;Marc&quot; and &quot;Clifton&quot; for first and last name respectively 
+as well, as the search algorithm matches all fields in the context that contains 
+the fields.&nbsp; As an aside, this implementation is only preliminary and does 
+not handle searches than span contexts.&nbsp; If we look at the context 
+dictionary, you can see what I actually entered in the different contexts:</p>
+<p><img border="0" src="searchContext3.png" width="194" height="368"></p>
+<p>You would be correct in assuming that if I entered the last name of 
+&quot;Clifton&quot;, we should get three search results back, and indeed we do:</p>
+<p><img border="0" src="searchContext4.png" width="325" height="373"></p>
+<p>The search algorithm identifies the common parent type (as mentioned, this 
+prototype algorithm only handles a single common parent type) and then matches 
+all field values of that context with the search values, returning all context 
+paths that match:</p>
+<pre>public List&lt;ContextNode&gt; Search(List&lt;ContextValue&gt; contextValuesToSearch)
+{
+  // For now the parent type of each value must be the same, as the values (for now) cannot span group containers.
+  // What we could do is collect all the unique parent group containers and find matches for those containers. The parent group
+  // must then be common for the super-parent to qualify the shared container. This gets complicated when the matches are found
+  // at different levels of the tree.
+
+  Assert.That(contextValuesToSearch.Count &gt; 0, &quot;At least one ContextValue instance must be passed in to Search.&quot;);
+  int pathItems = contextValuesToSearch[0].InstancePath.Count;
+  Assert.That(contextValuesToSearch.All(cv =&gt; cv.InstancePath.Count == pathItems), &quot;Context values must have the same path length for now.&quot;);
+
+  var parentTypes = contextValuesToSearch.Select(cv =&gt; cv.TypePath.Reverse().Skip(1).Take(1).First()).DistinctBy(cv=&gt;cv.AssemblyQualifiedName);
+
+  Assert.That(parentTypes.Count() == 1, &quot;Expected all context values to have the same field-parent.&quot;);
+
+  // Get the parent type shared by the fields.
+  Type parentType = parentTypes.Single();
+
+  // Find this parent type in the dictionary of context values. 
+  // We can find this parent type anywhere in the tree of any context value type path.
+
+  List&lt;ContextNode&gt; matches = new List&lt;ContextNode&gt;();
+
+  if (flatView.TryGetValue(parentType, out List&lt;ContextNode&gt; nodesOfParentType))
+  {
+    // Now compare the values in children of the context who's parent types match.
+    foreach (var parentNode in nodesOfParentType)
+    {
+      bool match = true;
+
+      foreach (var cv in contextValuesToSearch)
+      {
+        var childMatch = parentNode.Children.SingleOrDefault(c =&gt; c.Type == cv.TypePath.Last());
+
+        if (childMatch != null)
+        {
+          Assert.That(childMatch.ContextValue != null, &quot;Expected a ContextValue assigned to the last path entry.&quot;);
+          match = childMatch.ContextValue.Value == cv.Value;
+        }
+
+        if (!match)
+        {
+          break;
+        }
+      }
+
+      if (match)
+      {
+        matches.Add(parentNode);
+      }
+    }
+  }
+
+  return matches;
+}</pre>
+<h3><a name="ViewingSearchResults26">Viewing Search Results</a></h3>
+<p>The search result provides a GUID context instance path to the level of the 
+matching context.&nbsp; Any child contexts are part of the match, as well as any 
+fields in the parent contexts.&nbsp; We'll add a button to each search result to 
+view the resulting full context with a handler that calls a POST method with the 
+search result GUID path:</p>
+<pre>protected StringBuilder Render(IEnumerable&lt;ContextNodePath&gt; results)
+{
+  StringBuilder sb = new StringBuilder();
+  sb.StartTable();
+
+  foreach (var result in results)
+  {
+    sb.StartRow().
+    StartColumn().
+    Append(result.Path.First().Type.Name).
+    EndColumn().
+    StartColumn().Append(&quot;\r\n&quot;).
+    StartButton().
+    CustomAttribute(&quot;onclick&quot;, &quot;post(\&quot;/viewContext\&quot;, {instancePath : \&quot;&quot; + String.Join(&quot;.&quot;, result.Path.Select(p =&gt; p.InstanceId)) + &quot;\&quot;}, onShowSelectedSearchItem)&quot;).
+    Append(&quot;View&quot;).
+    EndButton().Append(&quot;\r\n&quot;).
+    EndColumn().
+    EndRow();
+  }
+
+  sb.EndTable();
+
+return sb;
+}</pre>
+<p>When we click on the View button, the following route handler gets executed:</p>
+<pre>public void Process(ISemanticProcessor proc, IMembrane membrane, ViewContext msg)
+{
+  var instancePath = msg.InstancePath.Split(&quot;.&quot;).Select(s=&gt;Guid.Parse(s)).ToList();
+  ContextValueDictionary cvd = CreateOrGetContextValueDictionary(proc, msg.Context);
+  var (parser, context) = cvd.CreateContext(instancePath);
+  string html = Renderer.CreatePage(parser, Renderer.Mode.View);
+  JsonResponse(proc, msg, new { Status = &quot;OK&quot;, html = html.ToString().ToBase64String() });
+}</pre>
+<p>Here's examples of what the browser looks like clicking on the different View 
+buttons:</p>
+<p><img border="0" src="view1.png" width="315" height="534"><img border="0" src="view2.png" width="315" height="534"><img border="0" src="view3.png" width="315" height="534"></p>
+<p>This should really drive home how contextual data differs from a relational 
+database.&nbsp; To reiterate, contextual data retains the relationship hierarchy 
+of the data.&nbsp; This allows us to easily display all the contexts in which a 
+sub-context exists and letting the user pick the context they desire.&nbsp; In a 
+traditional relational database, the context is incorporated in the schema, 
+requiring separate queries to find all the contexts for a single sub-context 
+instance.&nbsp; Typically the user would have to first decide &quot;I want to look up 
+a name in an address book&quot; or &quot;I want to look up a name in the employee 
+database.&quot;&nbsp; Contextual data flips this model around, letting the user pick 
+the contextual frame last.&nbsp; It can be quite useful (or not) to show the 
+user all the contexts in which a subset of the data exists.</p>
+<h4><a name="BehindtheScenes-BuildingtheContextInstance27">Behind the Scenes - Building the Context Instance</a></h4>
+<p>Interestingly (at least to me) building the context instance is quite simple, 
+requiring only that the instance ID's of the matching context be set in the 
+logical context path that the parser creates (we will see next that there is a 
+flaw in this approach.)&nbsp; At the moment, this code is 
+prototype but functional, as the todo's point out more work needs to be done:</p>
+<pre>public (Parser, Context) CreateContext(List&lt;Guid&gt; instancePath)
+{
+  // The interesting thing here is, we only need the root instance ID to find the root of the context.
+  // Everything else gets parsed based on what the dictionary has, which fills in the entire context
+  // even though the search was done one a sub-context.
+  // TODO: record numbers
+  // TODO: Be able to specify that we want to return a sub-context, not just the root context.
+  // TODO: *** Remove the entire path information from the View button ID, as all we need is the root level instance ID ***.
+  ContextNode dictNode = tree.Children.Single(c =&gt; c.InstanceId == instancePath[0]);
+  Type rootType = dictNode.Type;
+  Parser parser = new Parser();
+  var context = (Context)Activator.CreateInstance(rootType);
+  parser.Parse(context);
+
+  foreach (FieldContextPath fieldContextPath in parser.FieldContextPaths.Where(p =&gt; p.Path[0].Type == rootType))
+  {
+    ContextNode workingDictNode = dictNode;
+    fieldContextPath.Field.ContextPath[0].UpdateInstanceId(workingDictNode.InstanceId);
+
+    Process(fieldContextPath, 1, workingDictNode);
+  }
+
+  return (parser, context);
+}
+
+protected void Process(FieldContextPath fieldContextPath, int level, ContextNode workingDictNode)
+{
+  foreach (ContextNode childDictNode in workingDictNode.Children)
+  {
+    if (childDictNode.Type == fieldContextPath.Field.ContextPath[level].Type)
+    {
+      fieldContextPath.Field.ContextPath[level].UpdateInstanceId(childDictNode.InstanceId);
+      // Irrelevant if null, the only time childDictNode.ContextValue is not null is when childDictNode.Type is IValueEntity.
+      fieldContextPath.Field.ContextValue = childDictNode.ContextValue;
+
+      Process(fieldContextPath, level + 1, childDictNode);
+    }
+  }
+}</pre>
+<p>This can then be handed to the renderer which sets the field value when 
+rendering for &quot;view&quot; mode:</p>
+<pre>CustomAttribute(&quot;value&quot;, mode==Mode.View ? (field.ContextValue?.Value ?? &quot;&quot;) : &quot;&quot;).</pre>
+<p>An important point here is that the instance ID's are set to match context 
+instance in the context tree -- this means that we can edit the values and have 
+the appropriate instance update rather than creating a new context instance. </p>
+<h4><a name="AnInterestingArtifact28">An Interesting Artifact</a></h4>
+<p>
+<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example14.ChildContext&isSearch=true">
+http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example14.ChildContext&amp;isSearch=true</a></p>
+<p>Search for &quot;Elisabeth&quot; and you get the &quot;mother context&quot;, because what's 
+actually being searched is the <code>PersonNameContext</code> sub-context of 
+<code>ChildContext</code>.&nbsp; We need to qualify the 
+search by the containing a direct path (upwards) to the context being searched?</p>
+<h2><a name="Multi-RowContexts29">Multi-Row Contexts</a></h2>
+<p>All the examples so far are of single row contexts.&nbsp; Realistically, we 
+need to address a context that can handle multi-row data.&nbsp; A simple example 
+of this is a parent-child relationship, declared this way:</p>
+<pre>public class ParentChildRelationship : IRelationship { }
+
+public class ChildContext : Context
+{
+  public ChildContext()
+  {
+    Declare&lt;PersonContext&gt;().OneAndOnlyOne();
+  }
+}
+
+public class ParentContext : Context
+{
+  public ParentContext()
+  {
+    Declare&lt;PersonContext&gt;().OneAndOnlyOne();
+    Declare&lt;ParentChildRelationship, ParentContext, ChildContext&gt;().Max(5).AsGrid();
+  }
+}</pre>
+<p>Note how I use <code>AsGrid</code> as guidance to the renderer that I want a 
+grid.&nbsp; The <code>Max</code> limit is strictly for demo purposes to prevent creating too 
+large of an input area.</p>
+<p>URL:
+<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example13.ParentContext">
+http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example13.ParentContext</a> </p>
+<p><img border="0" src="multirow1.png" width="420" height="499"></p>
+<p>In the previous section I mentioned a problem with setting the physical 
+instance ID's in the logical context path.&nbsp; This works for single records 
+just fine, but a more general solution requires that the instance ID for the 
+rendered field must come from the physical context value dictionary.&nbsp; A 
+minor tweak to the rendering algorithm handles this regardless of whether we're 
+working with single record or multi-record contexts, as shown in this code 
+fragment that is part of the renderer:</p>
+<pre>// In view mode, the context path to the field [context path - 1] should match a dictionary entry,
+// then we need to acquire the instance ID for the record number and type of the actual ContextValue.
+// If there is no record number entry, the value is assigned to &quot;&quot;.
+if (cvd.TryGetContext(field, recNum, out ContextNode cn))
+{
+  instanceIdList = instanceIdList.Take(instanceIdList.Count - 1).ToList();
+  instanceIdList.Add(cn.InstanceId);
+  fieldValue = cn.ContextValue.Value;
+}
+else
+{
+  fieldValue = &quot;&quot;;
+}</pre>
+<p>This ensures that the multiple recordsets of the context display their 
+correct values, as demonstrated here after searching for some pre-populated 
+data:</p>
+<p>URL: http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example13.ParentContext&amp;isSearch=true</p>
+<p><img border="0" src="multirow2.png" width="426" height="621"></p>
+<h2><a name="TheFlawInContextRelationships30">The Flaw In Context Relationships</a></h2>
+<p>The flaw, at least in my implementation of contextual relationships, is that 
+each value instance has a unique context.&nbsp; This means that context-values 
+that are intended to be common <i>across</i> contexts are actually 
+disassociated.&nbsp; Let's explore some disassociations.</p>
+<h3><a name="Top-DownDisassociations31">Top - Down Disassociations</a></h3>
+<p>A good example of a top-down contextual relationship is where we have father 
+and mother contexts that have a relationship to one or more children.&nbsp; 
+We can declare separate father and mother contexts and for simplicity, let's 
+work with a limit of just one child:</p>
+<pre>public class ParentChildRelationship : IRelationship { }
+
+public class ChildContext : Context
+{
+  public ChildContext()
+  {
+    Declare&lt;PersonContext&gt;().OneAndOnlyOne();
+  }
+}
+
+public class FatherContext : Context
+{
+  public FatherContext()
+  {
+    Declare&lt;PersonContext&gt;().OneAndOnlyOne();
+    Declare&lt;ParentChildRelationship, FatherContext, ChildContext&gt;().OneAndOnlyOne();
+  }
+}
+
+public class MotherContext : Context
+{
+  public MotherContext()
+  {
+    Declare&lt;PersonContext&gt;().OneAndOnlyOne();
+    Declare&lt;ParentChildRelationship, MotherContext, ChildContext&gt;().OneAndOnlyOne();
+  }
+}</pre>
+<p>After creating values in the father/mother contexts for my parents:</p>
+<ul>
+	<li>URL:
+	<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example14.FatherContext">
+	http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example14.FatherContext</a></li>
+	<li>URL:
+	<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example14.MotherContext">
+	http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example14.MotherContext</a> 
+	</li>
+</ul>
+<p>I can search on my 
+name with the following result:</p>
+<p>URL:
+<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example14.PersonContext&isSearch=true">
+http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example14.PersonContext&amp;isSearch=true</a> </p>
+<p><img border="0" src="flaw1.png" width="303" height="232"></p>
+<p>This seems reasonable as we can view the mother and father contexts.&nbsp; 
+This works well even when searching on my last name:</p>
+<p><img border="0" src="searchContext5.png" width="311" height="535"><img border="0" src="searchContext6.png" width="311" height="535"></p>
+<p>This might be unexpected because the dictionary contains four separate 
+contexts paths for the last name of &quot;Clifton&quot;:</p>
+<p><img border="0" src="flaw3.png" width="208" height="514"></p>
+<p>When rendering the results, there's a bit of &quot;magic&quot; that occurs -- filtering 
+results by unique root context ID's:</p>
+<pre>List&lt;ContextNode&gt; matches = cvd.Search(cvSearch).DistinctBy(cn =&gt; cn.InstanceId).ToList();</pre>
+<p>However, the overall problem still exists -- each parent has a separate instance of the child, even though<i> the child is 
+the same child.</i>&nbsp; When we search for &quot;Clifton&quot; the algorithm finds four 
+occurrences:</p>
+<ol>
+	<li>father's context (same last name)</li>
+<li>mother's context (same last name)</li>
+	<li>father's child context with the same last name</li>
+<li>mother's child context with the same last name</li>
+</ol>
+	<p>and filters out 3 and 4 because they have the same context root ID as 1 
+	and 2.&nbsp; None-the-less, we have two child instances for the same child 
+	and therefore we have disassociated sub-contexts for the common father and mother 
+base context. </p>
+<h3><a name="Bottom-UpDisassociations32">Bottom - Up Disassociations</a></h3>
+<p>We could solve this problem with a bottom-up declaration.&nbsp; This form of 
+declaration is not necessarily as intuitive in the UI and still results in the 
+same problem of disassociated sub-contexts:</p>
+<pre>public class ChildParentRelationship : IRelationship { }
+
+public class ChildContext : Context
+{
+  public ChildContext()
+  {
+    Declare&lt;PersonContext&gt;().OneAndOnlyOne();
+    Declare&lt;ChildParentRelationship, ChildContext, FatherContext&gt;().OneAndOnlyOne();
+    Declare&lt;ChildParentRelationship, ChildContext, MotherContext&gt;().OneAndOnlyOne();
+  }
+}
+
+public class FatherContext : Context
+{
+  public FatherContext()
+  {
+    Declare&lt;PersonContext&gt;().OneAndOnlyOne();
+  }
+}
+
+public class MotherContext : Context
+{
+  public MotherContext()
+  {
+    Declare&lt;PersonContext&gt;().OneAndOnlyOne();
+  }
+}</pre>
+<p>URL:
+<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example15.ChildContext">
+http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example15.ChildContext</a> </p>
+<p>At first glance, this looks right:</p>
+<p><img border="0" src="flaw4.png" width="588" height="624"> </p>
+<p>And indeed, when we perform a search, we get the expected single context (we 
+could fill </p>
+<p>URL:
+<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example15.PersonContext&isSearch=true">
+http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example15.PersonContext&amp;isSearch=true</a>&nbsp; </p>
+<p><img border="0" src="flaw5.png" width="298" height="206"></p>
+<p>Remember that because we are only displaying the result for <i>distinct </i>
+root level contexts, only one search result is returned!&nbsp; And because 
+contexts are bidirectional, we can populate the context from the root instance 
+to reveal all the data in the context when it is viewed:</p>
+<p><img border="0" src="flaw6.png" width="584" height="405"></p>
+<p>While it looks accurate, in 
+the bottom-up declaration we have disassociated the father and mother records 
+from other contexts <i>that should reference the same record</i>.&nbsp; For 
+example, if the father has a child with a different mother, there is no way to 
+associate that the father is the same instance in both cases.&nbsp; This is 
+actually the same issue as the top-down disassociation discussed previously but 
+it is potentially more hidden because of the bottom-up nature of the context 
+graph.</p>
+<h3><a name="RecursiveAssociations33">Recursive Associations</a></h3>
+<p>Recursive contexts are another problem.&nbsp; Let's say we declare a person 
+has having a relationship with a mother and a father.&nbsp; But of course, moms 
+and dads are people too::</p>
+<pre>public class PersonContext : Context
+{
+  public PersonContext()
+  {
+    Declare&lt;PersonNameContext&gt;().OneAndOnlyOne();
+    Declare&lt;PersonFatherRelationship, PersonContext, FatherContext&gt;().OneAndOnlyOne();
+    Declare&lt;PersonMotherRelationship, PersonContext, MotherContext&gt;().OneAndOnlyOne();
+  }
+}
+
+public class FatherContext : Context
+{
+  public FatherContext()
+  {
+    Declare&lt;PersonContext&gt;().OneAndOnlyOne();
+  }
+}
+
+public class MotherContext : Context
+{
+  public MotherContext()
+  {
+    Declare&lt;PersonContext&gt;().OneAndOnlyOne();
+  }}
+}</pre>
+<p>I would have expected this to create a stack overflow, but it does not.&nbsp; 
+Why?&nbsp; Because the relationship of father-person and mother-person are 
+declared in the <code>PersonContext</code> not in the <code>FatherContext</code> or the <code>MotherContext</code> so 
+these sub-contexts do not recurse.&nbsp; We can see this in the trace log:</p>
+<p><img border="0" src="flaw7.png" width="620" height="343"></p>
+<p>However, if we exactly declare that a person has a relationship with a father 
+and mother, and that the father and mother have a relationship with a person 
+context, we get infinite recursion:</p>
+<pre>public class PersonFatherRelationship : IRelationship { }
+public class PersonMotherRelationship : IRelationship { }
+public class FatherPersonRelationship : IRelationship { }
+public class MotherPersonRelationship : IRelationship { }
+
+public class PersonContext : Context
+{
+  public PersonContext()
+  {
+    Declare&lt;PersonNameContext&gt;().OneAndOnlyOne();
+    Declare&lt;PersonFatherRelationship, PersonContext, FatherContext&gt;().OneAndOnlyOne();
+    Declare&lt;PersonMotherRelationship, PersonContext, MotherContext&gt;().OneAndOnlyOne();
+  }
+}
+
+public class FatherContext : Context
+{
+  public FatherContext()
+  {
+    Declare&lt;FatherPersonRelationship, FatherContext, PersonContext&gt;().OneAndOnlyOne();
+  }
+}
+
+public class MotherContext : Context
+{
+  public MotherContext()
+  {
+    Declare&lt;MotherPersonRelationship, MotherContext, PersonContext&gt;().OneAndOnlyOne();
+  }
+}</pre>
+<p>Of course, this is overkill--we could have simply stated that a father 
+context as a relationship with a father context, or more generally expressed in 
+this unit test:</p>
+<pre>public class RecursiveRelationship : IRelationship { }
+
+public class RecursiveContext : Context
+{
+  public RecursiveContext()
+  {
+    Declare&lt;RecursiveRelationship, RecursiveContext, RecursiveContext&gt;();
+  }
+}
+
+[TestMethod, ExpectedException(typeof(ContextException))]
+public void RecursiveContextTest()
+{
+  parser.Parse(new RecursiveContext());
+}</pre>
+<p>As the unit test illustrates, we'd like the parser to 
+detect this situation, which can be done easily enough by checking whether we've 
+already encountered the exact same context in one of the super-contexts:</p>
+<pre>protected Group GenerateMasterGroups(Stack&lt;ContextPath&gt; contextPath, List&lt;Group&gt; groups, Group group, IContext context, RelationshipDeclaration relationship)
+{
+  if (contextPath.Any(c =&gt; c.Type == context.GetType()))
+  {
+    throw new ContextException(&quot;Context &quot; + context.GetType().Name + &quot; is recursive.&quot;);
+  }
+  ...
+}</pre>
+<p>URL:
+<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example16.PersonContext">
+http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example16.PersonContext</a> </p>
+<p><img border="0" src="flaw8.png" width="304" height="168"></p>
+<h3><a name="TheTwoReasonsWe'reEncounteringTheseDisassociations34">The Two Reasons We're Encountering These Disassociations</a></h3>
+<p>In a traditional relational model, we don't encounter this problem for two 
+reasons:</p>
+<ul>
+	<li>A relational model is not bidirectional.</li>
+	<li>A relational model associates related items through a unique key. </li>
+</ul>
+<p>Let's explore this further.</p>
+<h4><a name="ContextsAreBidirectional35">Contexts Are Bidirectional</a></h4>
+<p>Unlike relational models, contexts are bidirectional -- given the root 
+context, one can determine all the sub-contexts associated with the root 
+context.&nbsp; Conversely, given a sub-context, one can navigate the hierarchy 
+to determine all the super-contexts, up to and including the root context, in 
+which the sub-context is associated.&nbsp; With a relational model, it is the 
+join statement that glues together disassociated contexts.</p>
+<p>In a relational model, a top-down model tends to be counter-intuitive and 
+requires going through a many-to-many relationship.&nbsp; This entity 
+relationship model is rather atypical:</p>
+<p><img border="0" src="er1.png" width="534" height="337"></p>
+<p>Technically though it does express, via the <code>FatherChildRelationship</code> table, 
+that the concept that a child has a father and a father has a child.&nbsp; The 
+above model has many flaws though due to the requirement for a many-to-many 
+separate relationship table:</p>
+<ul>
+	<li>Fathers can exist without children.</li>
+	<li>Children can exist without fathers.</li>
+	<li>Children can have more than one father.</li>
+</ul>
+<p>A 
+more traditional relationship model would be bottom-up:</p>
+<p><img border="0" src="er2.png" width="225" height="299"></p>
+<p>Here, while a Father record can exist without a Child record, a Child record 
+requires a Father record and the each unique Child record can have only one 
+Father record.&nbsp; We notice though that the &quot;Father&quot; table (a context) 
+actually has no idea that it is referenced in another context (the &quot;Child&quot; 
+table) at least not without inspecting the foreign key constraints in the entity 
+relation diagram.&nbsp; This was of course true as well in my top-down child 
+context <i>declaration</i>:</p>
+<pre>public class ChildContext : Context
+{
+  public ChildContext()
+  {
+    Declare&lt;PersonContext&gt;().OneAndOnlyOne();
+  }
+}</pre>
+<p>The key word here is &quot;declaration.&quot;&nbsp; In summary, the difference between 
+a context instance and an entity model record instance is:</p>
+<ol>
+	<li>A context can be navigated from top to bottom or bottom to top.</li>
+	<li>If I query for a Father instance in a context, I get all the related 
+	sub-contexts.&nbsp; If I query the Father table in a relational model, I get 
+	only the Father records <i>unless I explicitly join with the Child table</i>.</li>
+	<li>If I query for a Child instance in context, again I get all the related, 
+	but this time, super-contexts.&nbsp; If I query the Child table in a 
+	relational model, I get only the Child records <i>unless I explicitly join 
+	with the Father table</i>.</li>
+</ol>
+<h4><a name="LackofUniqueKey36">Lack of Unique Key</a></h4>
+<p>So far, the context examples that I've provided are lacking a unique key (or 
+&quot;unique identifier&quot; if you prefer.)&nbsp; A unique key effectively states that 
+the content of a record (or more traditionally stated, &quot;the record instance&quot;) is 
+the same among all entities that refer to that record by it's unique key.&nbsp; 
+The problem is that the user must often be the one to determine whether the 
+record content is unique or not.&nbsp; <font color="#FF0000">In fact, our user 
+interfaces are tailored specifically so that we can assume that the user is 
+working within a single context</font>!&nbsp; For example, when entering a 
+parent's children, the user interface assumes (and the user does as well) that 
+we are in the context of the children of the indicated parents.&nbsp; If we're 
+entering children and we want to also add their parents, the user interface (and 
+the user) assume that we are in the context of a particular child and therefore 
+the parents that we enter are specific to that child.&nbsp;
+<font color="#FF0000">So you can see how, via the user interface, we 
+artificially create the context for a relational model that does not contain 
+sufficient information to describe the context by itself.</font></p>
+<h3><a name="SolvingtheDisassociatedContextProblem37">Solving the Disassociated Context Problem</a></h3>
+<p>To solve the disassociated context problem, we need a mechanism for declaring 
+that, instead of creating a distinct context instance at some level in the 
+hierarchy, we want to <i>reference an existing</i> context instance.&nbsp; 
+Internally we need the ability to associate this reference to an existing 
+context graph.&nbsp; This is typically exposed in the UI by providing the user a 
+means of looking up existing records and identifying which record is to be used 
+as the reference.&nbsp; For example, showing the first part of the instance ID 
+GUID paths dot-delimited:</p>
+<p>URL: <a href="http://localhost/dictionary?showInstanceIds=true">
+http://localhost/dictionary?showInstanceIds=true</a></p>
+<p><img border="0" src="disassociation1.png" width="540" height="547"></p>
+<p>We want the instance ID's of both <code>ChildContext</code>'s to reference the same 
+<code>ChildContext</code>.&nbsp; We should not need to create a separate 
+<code>ChildContext</code> (though we could) -- instead, we should be able to look up all the 
+child contexts so the user can select the correct one.&nbsp; Of course, this has 
+it's own drawbacks, as one would typically filter the child context by another 
+context, such that the filter parameters might be &quot;children of the father 
+&quot;Thomas Clifton.&quot;&nbsp; We have to revisit filtering to accomplish that, but for 
+now, let's keep it simple for now, as implementing context references is 
+complicated enough!</p>
+<p>In the above screenshot, let's assume the father-child context was created 
+first.&nbsp; The common part of the child context is <b>f01d375b</b>.&nbsp; In 
+the mother-child context, we want to be able to use this ID, so instead of the 
+mother-child context ID being a05e17ed.<b>e4d8e9ca</b>, we would like it instead 
+to be a05e17ed.<b>f01d375b</b>, as well as all subsequent ID's at the second 
+level of the <code>ChildContext</code> sub-contexts.&nbsp; Got that?</p>
+<p>From the user interface perspective, we need two things:</p>
+<ol>
+	<li>A way to define what should be displayed in each row of the lookup</li>
+	<li>A way to look up existing context</li>
+</ol>
+<p>If we want to stay with our declarative approach, let's try something fairly 
+simple, which is declaring how a lookup should be rendered--again, we're going 
+for minimal usefulness right now.&nbsp; We declare how a lookup should be 
+rendered in the context for which we want to expose a lookup, in this case 
+<code>ChildContext</code>:</p>
+<pre>public class ChildContext : Context
+{
+  public ChildContext()
+  {
+    Declare&lt;PersonContext&gt;().OneAndOnlyOne();
+    Lookup&lt;FirstName&gt;().And(&quot; &quot;).And&lt;LastName&gt;();
+  }
+}</pre>
+<p>URL:
+<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example17.FatherContext">
+http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example17.FatherContext</a> </p>
+<p>Assuming some instances of <code>ChildContext</code> exist, this is what gets rendered on 
+the page for any context that references <code>ChildContext</code>:</p>
+<p><img border="0" src="lookup1.png" width="295" height="205"></p>
+<p>To reiterate, this is a very simplistic lookup -- there is no filtering, so
+<i>all</i> <code>ChildContext</code> instances are listed.&nbsp; For those 
+interested in the behind-the-scenes implementation of populating the lookup, 
+here's how it's done (read the comments!):</p>
+<pre>/// &lt;summary&gt;
+/// Adds a &quot;select&quot; section with lookup items that are rendered by the
+/// lookup rendering declaration for a particular context, returning the
+/// lookup items that were created.
+/// &lt;/summary&gt;
+private static List&lt;LookupItem&gt; RenderOptionalLookup(StringBuilder sb, Parser parser, Group group, ContextValueDictionary cvd)
+{
+  List&lt;LookupItem&gt; lookupItems = new List&lt;LookupItem&gt;();
+  var groupContextType = group.ContextType;
+  int lookupId = 0;
+
+  // If there's an associated lookup, query the dictionary for instances of this context (no filtering for now!)
+  // and render the values as declared by the lookup. If no dictionary is provided, lookups are not possible.
+  if (cvd != null &amp;&amp; parser.HasLookup(groupContextType))
+  {
+    Lookup lookup = parser.GetLookup(groupContextType);
+    IReadOnlyList&lt;ContextNode&gt; contextNodes = cvd.GetContextNodes(groupContextType);
+
+    if (contextNodes.Count &gt; 0)
+    {
+      // 1. Iterate each context node.
+      // 2. Navigate the children until we get concrete (not null) ContextValue's.
+      // 3. Get the distinct record numbers of these.
+      // 4. Itereate the record numbers
+      // 5. Render the lookup for that context node and record number.
+      // 6. For each actual IValueEntity (contained in a LookupEntity) acquire the ContextValue and add
+      // an entry in the lookupItems collection, which will serve as dictionary for how a selected item
+      // populates its associated input control.
+      List&lt;(string, int)&gt; lookups = new List&lt;(string, int)&gt;();
+
+      foreach (var cn in contextNodes) // 1
+      {
+        IReadOnlyList&lt;ContextValue&gt; contextValues = cvd.GetContextValues(cn); // 2
+        var recnums = contextValues.Select(cv =&gt; cv.RecordNumber).Distinct(); // 3
+
+        foreach (var recnum in recnums) // 4
+        {
+          string record = lookup.Render(cn, cvd, recnum, contextValues); // 5
+          lookups.Add((record, lookupId));
+
+          // 6
+          var lookupEntities = lookup.GetLookupEntities();
+
+          foreach (var lookupEntity in lookupEntities)
+          {
+            var contextValue = contextValues.SingleOrDefault(cv =&gt; cv.Type == lookupEntity.ValueEntity &amp;&amp; cv.RecordNumber == recnum);
+
+            if (contextValue != null)
+            {
+              // The full instance ID path is path, up to the lookup sub-context, in
+              // which this sub-context is contained. However, we don't have this value yet!
+              // It is either generated (new context) or assigned (existing context)
+              // so we need to defer this until we know the instance ID path we're using.
+              lookupItems.Add(new LookupItem(contextValue, groupContextType, lookupId));
+            }
+          }
+        }
+      }
+
+      sb.Append(&quot;Lookup: &quot;);
+      sb.StartSelect().OnChange(&quot;populateFromLookup(this)&quot;);
+      // Placeholder so user has to actively select a lookup because because otherwise the first item
+      // appears selected, and clicking on the option doesn't trigger the event.
+      sb.Option(&quot;Choose item:&quot;);
+      // lk is a tuple (lookup text, lookup ID)
+      lookups.ForEach(lk =&gt; sb.Option(lk.Item1, lk.Item2.ToString()));
+      sb.EndSelect();
+    }
+  }
+
+  return lookupItems;
+}</pre>
+<p>There is also a bit of magic that has to occur during rendering: the final 
+wire-up of the context instance path for the lookup itself, which, if used, 
+replaces the instance ID path for an input control whenever we are creating a 
+new context.&nbsp; Given that we're not viewing an existing context:</p>
+<pre>if (mode != Mode.View)
+{
+  // Here we want to bind the field's context path type list, up to the path that contains the context value,
+  // with ID's for the path types, creating ID's if the path type doesn't exist. This ensures that all data instances
+  // exist within a single root context. 
+  instanceIdList = parser.CreateInstancePath(field.ContextPath.Select(cp =&gt; cp.Type));
+  LookupItemLateBinding(field, lookupItems, instanceIdList);
+}
+
+private static void LookupItemLateBinding(Field field, List&lt;LookupItem&gt; lookupItems, List&lt;Guid&gt; instanceIdList)
+{
+  // Late binding of lookupItem's FullContextInstancePath:
+  foreach (var lookupItem in lookupItems.Where(li =&gt; li.ContextValue.Type == field.ContextPath.Last().Type))
+  {
+    // Find where in the entire path for this field the lookup value sub-context starts.
+    int idx = field.ContextPath.IndexOf(cp =&gt; cp.Type == lookupItem.ContextType);
+
+    // The full context instance ID path starts with these base ID's...
+    lookupItem.NewContextInstancePath.AddRange(instanceIdList.Take(idx));
+
+    // ...and finishes with the context ID's for the lookup.
+    lookupItem.NewContextInstancePath.AddRange(lookupItem.OriginalContextInstancePath.Skip(idx));
+  }
+}</pre>
+<p>The comments should be adequate to explain the idea that the super-context 
+ID's are preserved but the sub-context ID's are replaced to match the lookup 
+item's context value instance path for the matching context value type.&nbsp; 
+(That was a fun sentence to write!)</p>
+<p>Next, in order for the selection event in the browser to know what to do, we 
+have to provide the Javascript with a way of handling the selection event: </p>
+<ol>
+	<li>Here's the lookup we selected.</li>
+	<li>Here's the fields that were used to render the lookup.</li>
+<li>Here's the input controls that the rendered fields map to.</li>
+	<li>Now:<ol>
+		<li>Update &quot;cvid&quot; string for that input control.</li>
+	<li>Set the input control's value.</li>
+		<li>Notify the server of the value change.</li>
+	</ol>
+</li>
+</ol>
+<p>Easy-peasy, right?</p>
+<p>Let's make sure we have all the pieces.&nbsp; First, the lookup dictionary is 
+set up in Javascript at the end of the UI rendering (CRLF's and JSON indented 
+formatting added for 
+readability when inspecting the source in the browser):</p>
+<pre>sb.EndDiv();
+
+string jsonLookupDict = JsonConvert.SerializeObject(lookupDictionary, Formatting.Indented);
+
+sb.Append(CRLF);
+sb.StartScript().Append(CRLF).
+Javascript(&quot;(function() {wireUpValueChangeNotifier(); wireUpEvents();})();&quot;).
+Append(CRLF).
+Javascript(&quot;lookupDictionary = &quot; + jsonLookupDict + &quot;;&quot;).
+Append(CRLF).
+EndScript().
+Append(CRLF);
+sb.EndBody().EndHtml();</pre>
+<p>After entering a single father-child relationship, we see this:</p>
+<pre>lookupDictionary = [
+{
+  &quot;OriginalContextInstancePath&quot;: [
+    &quot;f9b77125-d1d9-45ae-b157-3ac95603d5c0&quot;,
+    &quot;daf84e46-3389-46d2-a3b9-3c3cd992022f&quot;,
+    &quot;cb9d73ae-18e2-4383-9667-da3885dfd777&quot;,
+    &quot;6cc6d70a-cba1-4a75-8802-a389df2327d3&quot;,
+    &quot;7ce2dc9c-1aa3-4b07-8551-11e7eafa73f1&quot;
+  ],
+  &quot;NewContextInstancePath&quot;: [
+    &quot;f9b77125-d1d9-45ae-b157-3ac95603d5c0&quot;,
+    &quot;89638c69-0f38-4a5e-b95a-d171958a37be&quot;,
+    &quot;118a4256-bd4b-48ba-9545-16d53888a374&quot;,
+    &quot;08307f5e-f194-4b6a-9d70-0c0fdc7f8657&quot;,
+    &quot;0abe703b-b79a-4d70-87c5-619042bdfef7&quot;
+  ],
+  &quot;Value&quot;: &quot;Marc&quot;,
+  &quot;LookupId&quot;: 0
+},
+{
+  &quot;OriginalContextInstancePath&quot;: [
+    &quot;f9b77125-d1d9-45ae-b157-3ac95603d5c0&quot;,
+    &quot;daf84e46-3389-46d2-a3b9-3c3cd992022f&quot;,
+    &quot;cb9d73ae-18e2-4383-9667-da3885dfd777&quot;,
+    &quot;6cc6d70a-cba1-4a75-8802-a389df2327d3&quot;,
+    &quot;60c0815d-e9e7-43d1-aaf5-e8f4a1dfc7a5&quot;
+  ],
+  &quot;NewContextInstancePath&quot;: [
+    &quot;f9b77125-d1d9-45ae-b157-3ac95603d5c0&quot;,
+    &quot;89638c69-0f38-4a5e-b95a-d171958a37be&quot;,
+    &quot;118a4256-bd4b-48ba-9545-16d53888a374&quot;,
+    &quot;08307f5e-f194-4b6a-9d70-0c0fdc7f8657&quot;,
+    &quot;5c5e4d8b-25be-4d66-b525-b3b5a981d916&quot;
+  ],
+  &quot;Value&quot;: &quot;Clifton&quot;,
+  &quot;LookupId&quot;: 0
+}
+];
+</pre>
+<p>Next, we observe how the dropdown list is rendered:</p>
+<pre><img border="0" src="lookup2.png" width="296" height="46"></pre>
+<p>The option value is the <code>LookupId</code> in the JSON.&nbsp; We also note 
+that the OriginalContextInstancePath is the instance ID path to the existing 
+record (GUID's are shortened to just the first segment):</p>
+<p>&nbsp;<img border="0" src="lookup3.png" width="537" height="256"></p>
+<p>Lastly, for the ChildContext first name input control, note the ID, which 
+matches the NewContextInstancePath (new because it was created as a new 
+context):</p>
+<pre>&lt;input type=&quot;text&quot; class=&quot;contextualValue requiredValue&quot; 
+  id=&quot;f9b77125-d1d9-45ae-b157-3ac95603d5c0.daf84e46-3389-46d2-a3b9-3c3cd992022f.cb9d73ae-18e2-4383-9667-da3885dfd777.6cc6d70a-cba1-4a75-8802-a389df2327d3.7ce2dc9c-1aa3-4b07-8551-11e7eafa73f1&quot;
+  ...
+&gt;</pre>
+<p>We can now correlate the ID set up for the new context: f9b77125..., 
+daf84e46..., etc. with the <code>OriginalContextPath</code> for <code>LookupID</code> 0 and determine two 
+things:</p>
+<ol>
+	<li>The new context path--note how the super-context ID path (one 
+	super-context in this case) f9b77125... is preserved--but the rest of the 
+	context path refers to the existing instance.</li>
+	<li>The value to set in the input control.</li>
+</ol>
+<p>We now have all the pieces to implement the Javascript that updates the <code>cvid</code> 
+value and the input control's value:</p>
+<pre>function populateFromLookup(lookup) {
+  // Ignore &quot;Choose Item:&quot;
+  if (lookup.selectedIndex != 0) { 
+    var lookupId = lookup[lookup.selectedIndex].value;
+    var records = findLookupRecords(lookupId);
+    updateInputControls(records);
+    sendFieldChanges(records);
+  }
+}
+
+// Find all records in the lookupDictionary for the given lookup ID.
+function findLookupRecords(lookupId) {
+  var lookupRecords = [];
+
+  for (var idx = 0; idx &lt; lookupDictionary.length; idx++) {
+    record = lookupDictionary[idx];
+    if (record.LookupId == lookupId) {
+      lookupRecords.push(record);
+    }
+  }
+
+  return lookupRecords;
+}
+
+// For each record, find the input control whose ID matches the original instance path ID
+// and update the value and &quot;cvid&quot; attribute.
+function updateInputControls(records) {
+  for (var idx = 0; idx &lt; records.length; idx++) {
+    var record = records[idx];
+    var originalId = record.OriginalContextInstancePath.join(&quot;.&quot;);
+    var docInput = document.getElementById(originalId);
+    docInput.value = record.Value;
+    docInput.setAttribute(&quot;cvid&quot;, record.NewContextInstancePath.join(&quot;.&quot;));
+  }
+}
+
+// Inform the server of the lookup selection.
+function sendFieldChanges(records) {
+  for (var idx = 0; idx &lt; records.length; idx++) {
+    var record = records[idx];
+    var originalId = record.OriginalContextInstancePath.join(&quot;.&quot;);
+    sendFieldChange(originalId, &quot;/updateField&quot;);
+  }
+}</pre>
+<p>So far, in the <code>ContextValueDictionary</code>, we've been assuming that any &quot;add&quot; 
+operation is for a completely new context graph.&nbsp; This is no longer the 
+case, as we are now referencing an existing sub-context.&nbsp; This requires a 
+tweak to the <code>AddOrUpdate</code> method.&nbsp; Also note that I discovered 
+that this operation must be synchronous -- it worked before when the user inputs 
+values into the browser's controls because the user types slowly.&nbsp; But when 
+the browser updates all the associated values in a lookup context, these occur 
+asynchronously.</p>
+<pre>public void AddOrUpdate(ContextValue cv)
+{
+  // We have to process this synchronously!
+  // If async, we might get simultaneous requests (particularly from the browser's async PUT calls) to add a value. 
+  // While we're constructing the dictionary entry for one context path, another request might come in before we've
+  // created all the nodes for the first call.
+  lock (this)
+  {
+    // Walk the instance/path, creating new nodes in the context tree as required.
+
+    Assert.That(cv.TypePath.Count == cv.InstancePath.Count, &quot;type path and instance path should have the same number of entries.&quot;);
+    ContextNode node = tree;
+
+    for (int i = 0; i &lt; cv.TypePath.Count; i++)
+    {
+      // Walk the tree.
+      var (id, type) = (cv.InstancePath[i], cv.TypePath[i]);
+
+      if (node.Children.TryGetSingle(c =&gt; c.InstanceId == id, out ContextNode childNode))
+      {
+        node = childNode;
+      }
+      else
+      {
+        // Are we referencing an existing sub-context?
+        if (flatView.TryGetValue(type, out List&lt;ContextNode&gt; nodes))
+        {
+          // The instance path of the node must match all the remaining instance paths in the context
+          // we're adding/updating!
+          bool foundExistingSubContext = false;
+
+          foreach (var fvnode in nodes)
+          {
+            foreach (var fvnodepath in fvnode.InstancePaths())
+            {
+              if (cv.InstancePath.Skip(i).SequenceEqual(fvnodepath))
+              {
+                // This node get's a child referencing the existing sub-context node.
+                node.AddChild(fvnode);
+                node = fvnode;
+                foundExistingSubContext = true;
+                break;
+              }
+            }
+
+            if (foundExistingSubContext)
+            {
+              break;
+            }
+          }
+
+          if (!foundExistingSubContext)
+          {
+            node = CreateNode(i, id, cv, node, type);
+          }
+        }
+        else
+        {
+          node = CreateNode(i, id, cv, node, type);
+        }
+      }
+    }
+
+    // The last entry in the tree gets the actual context value. We've either added this node to the tree
+    // or updating an existing node.
+    node.ContextValue = cv;
+  }
+}</pre>
+<p>After selecting an existing child for the &quot;mother&quot; context:</p>
+<p><img border="0" src="lookup4.png" width="297" height="204"></p>
+<p>We note that the dictionary now references the child created in the &quot;father&quot; 
+context:</p>
+<p><img border="0" src="lookup5.png" width="559" height="393"></p>
+<p>As an aside, it's important to note that a root-level context cannot have a 
+lookup.&nbsp; So, &quot;father&quot; and &quot;mother&quot;, as root contexts, can never be 
+referenced by other &quot;father&quot; or &quot;mother&quot; contexts.&nbsp; To achieve this, these 
+two contexts would have to be wrapped in a super-context.</p>
+<h4><a name="RevisitingSearching38">Revisiting Searching</a></h4>
+<p>Searching has now been broken because it doesn't yet know about a context 
+that references a sub-context from a different super-context.&nbsp; Again, a 
+context path was expected to be unique.&nbsp; With a shared sub-context, we need 
+to find all the other root contexts that share this sub-context.&nbsp; We add 
+this call to the end of the Search method:</p>
+<pre>MatchWithContextsReferencingSubContext(matches);</pre>
+<p>Implementation:</p>
+<pre>protected void MatchWithContextsReferencingSubContext(List&lt;ContextNode&gt; matches)
+{
+  // For each match, see if there are other super-contexts that reference this same matching context.
+  // If so, these should be added to the list of matches. 
+  // TODO: Would this be easier if we change ContextNode.Parent from a singleton to a List&lt;ContextNode&gt; ?
+  // Clone, otherwise we may end up modifying the list of known matches.
+  foreach (ContextNode match in matches.ToList())
+  {
+    List&lt;Guid&gt; matchParentPath = match.GetParentInstancePath();
+
+    // We only want root contexts.
+    foreach (var nodes in flatView.Values.Where(n=&gt;n.Last().Parent.InstanceId == Guid.Empty))
+    {
+      ContextNode lastNode = nodes.Last();
+
+      foreach (var childNodeIdPath in lastNode.ChildInstancePaths())
+      {
+        // We attempt to find a node where any sub-context ID equals the match last ID, as this gives us at least
+        // one context node in which we know that there is another reference.
+        // This, incidentally, is the common context type that we're searching on.
+        if (childNodeIdPath.Any(id =&gt; id == match.InstanceId))
+        {
+          // The root instance ID for this match should be different than any existing match.
+          if (!matches.Any(m =&gt; m.GetParentInstancePath().First() == nodes.First().InstanceId))
+          {
+            // Add this other context, that is referencing the context we matched on.
+            matches.Add(lastNode);
+          }
+        }
+      }
+    }
+  }
+}</pre>
+<p>And we get the expected result (both mother and father root contexts are 
+found when searching on a shared sub-context):</p>
+<p>URL:
+<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example17.PersonContext&isSearch=true">
+http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example17.PersonContext&amp;isSearch=true</a> </p>
+<p><img border="0" src="lookup6.png" width="311" height="536"><img border="0" src="lookup7.png" width="311" height="536"></p>
+<h2><a name="Conclusion39">Conclusion</a></h2>
+<p>Putting this prototype together was considerably more difficult than I 
+expected.&nbsp; This is partly because the concept itself is rather alien -- we 
+think of context as having data rather than the opposite, data having context.&nbsp; 
+There were a variety of rabbit holes that I went down and lots of code got 
+deleted that turned out to be a dead end.&nbsp; Part of the complexity probably 
+derives from the architecture itself -- using imperative code to define contexts 
+declaratively as well as the particular approach that I took with the concept, 
+that is, contexts can have &quot;has a&quot; relationships, one-to-many relationships, and 
+abstractions.&nbsp; Also putting together a demo UI in the web browser meant 
+pulling in my code base for my web server and working with Javascript.&nbsp; 
+That said, there's a lot of flexibility that is achieved by rendering the UI in 
+the browser rather than manipulating WinForm controls.&nbsp; Even with all the 
+work that went into this, this prototype is still incomplete!</p>
+<p>Also, a number of the links one can find regarding &quot;contextual computing&quot; 
+refer to the context of data in &quot;big data&quot;, particularly for the use of mining 
+the data for sentiment analysis and real-time feedback (such as &quot;what 
+restaurants are near me that offer food based on other restaurants I've 
+visited?&quot;&nbsp; Determining context is also important in semantic analysis.&nbsp; 
+If I say &quot;I'm going to by an apple&quot; does this mean I'm going to the grocery 
+store or the Apple computer store?&nbsp; Contextual computing is definitely 
+applicable to other emerging technologies, such as (of course) artificial 
+intelligence.&nbsp; However, context is also critical in agent-based 
+computing--a bunch of data doesn't have any particular meaning unless the agent 
+knows the context of the data.&nbsp; So, in a very real sense, contextual 
+computing is moving the field of data management forward such that data is no 
+longer a static collection of facts and figures but is more &quot;alive&quot; -- data can 
+now trigger concrete activities as determined by its context.&nbsp; </p>
+<h3><a name="DistributedComputingandContextualData40">Distributed Computing and Contextual Data</a></h3>
+<p>In a distributed computing environment, each node will have a different 
+collection of data and most likely different context for that data.&nbsp; When 
+one node asks the entire system to search for a particular contextual value 
+match, the various distributed nodes might return hits for contexts that the 
+requesting node knows nothing about.&nbsp; And while it can then query that node 
+for its context definition, the salient point is that the context is included as 
+part of the data values so that the requester can determine what to do with new 
+contexts.&nbsp; This is the foundation, as the link at the beginning of article 
+described, for the <i>younger and more intelligent sibling</i> of Big Data.</p>
+<h3><a name="FurtherReading41">Further Reading</a></h3>
+<p><a href="https://www.cc.gatech.edu/fce/contexttoolkit/pubs/chi99.pdf">The 
+Context Toolkit: Aiding the Development of Context-Enabled Applications</a></p>
+<p><a href="http://www.dblab.ece.ntua.gr/pubs/uploads/TR-2005-1.pdf">Towards a 
+Context-Aware Relational Model</a></p>
+<p>With regards to the above link, I want to draw your attention to this 
+particularly salient statement:</p>
+<p><i>Although relational model can be in principle used to represent context 
+dependent information, context as such cannot be handled in database level but 
+through the use of application logic. In the CR model context is treated as a 
+first class citizen added at the level of databases, enabling a uniform approach 
+to context and the definition of context aware structures and operations.</i></p>
+<p><a href="http://dmod.eu/deca/jpcc05.pdf">A Context-Aware Preference Database 
+System</a></p>
+<h3><a name="FoundonGitHub42">Found on GitHub</a></h3>
+<p>Not much!</p>
+<p><a href="https://github.com/levand/contextual">
+https://github.com/levand/contextual</a></p>
+<p><i>This library provides contextual data structures for maps and vectors that 
+track their own context, from some arbitrary root.</i> </p>
+<h3><a name="FutureWork43">Future Work</a></h3>
+<ul>
+	<li>Hierarchical context searches -- fixing this:</li>
+</ul>
+<pre>Assert.That(contextValuesToSearch.All(cv =&gt; cv.InstancePath.Count == pathItems), &quot;Context values must have the same path length for now.&quot;);</pre>
+<p>in the <code>ContextValueDictionary's Search</code> method.</p>
+<ul>
+	<li>Context lookup filtering</li>
+</ul>
+<p>If groups should only be allowed to coalesce if they have different 
+sub-contexts (and hopefully different field labels.)&nbsp; Certainly, coalesced 
+groups that have the same subgroups (like father group and mother group) would 
+blow the lookup ID re-mapping out of the water because there would not be a way 
+to distinguish father and mother groups.&nbsp; I think.</p>
+<ul>
+	<li>Ability to update result contexts, particularly of note regarding context 
+references.</li>
+<li>A real application use case with a real application UI!</li>
+	<li>Solving the recursive context problem.</li>
+	<li>Performance tests.</li>
+	<li>Determining a reasonable data storage mechanism contextual data.</li>
+	<li>Other, perhaps less complicated, implementations.</li>
+</ul>
+
+<h3><a name="References44">References</a></h3>
+<p>1 - <a href="https://www.techopedia.com/definition/31778/contextual-data">
+https://www.techopedia.com/definition/31778/contextual-data</a> </p>
+<p>2 -
+<a href="https://www.wired.com/insights/2013/04/with-big-data-context-is-a-big-issue/">
+https://www.wired.com/insights/2013/04/with-big-data-context-is-a-big-issue/</a></p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

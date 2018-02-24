@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Modules>
+  <Module AssemblyName='Clifton.AppConfigService.dll'/>
+  <Module AssemblyName='Clifton.ConsoleLoggerService.dll'/>
+  <Module AssemblyName='Clifton.SemanticProcessorService.dll'/>
+  <Module AssemblyName='Clifton.WebServerService.dll'/>
+  <Module AssemblyName='Clifton.WebRouterService.dll'/>
+  <Module AssemblyName='Clifton.WebResponseService.dll'/>
+  <Module AssemblyName='Clifton.WebFileResponseService.dll'/>
+  <Module AssemblyName='Clifton.WebWorkflowService.dll'/>
+  <Module AssemblyName='Clifton.WebDefaultWorkflowService.dll'/>
+  <Module AssemblyName='Clifton.WebSessionService.dll'/>
+  <Module AssemblyName='Clifton.WebSocketService.dll'/>
+</Modules>
