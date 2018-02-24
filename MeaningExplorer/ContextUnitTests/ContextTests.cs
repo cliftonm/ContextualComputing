@@ -274,7 +274,7 @@ namespace ContextUnitTests
         }
 
         [TestMethod]
-        public void UndoEntityAddTest()
+        public void UniqueEntityAddTest()
         {
             Context context = new Context();
             var decl = context.Declare<Employee>().Exactly(2);
@@ -432,7 +432,7 @@ namespace ContextUnitTests
         }
 
         [TestMethod]
-        public void UndoRelationshipConstraintTest()
+        public void UniqueRelationshipConstraintTest()
         {
             bool exceptionThrown = false;
 
