@@ -26,15 +26,23 @@ competing to make the early market. Contextual computing is now expected to grow
 largely due to widespread use in consumer mobile devices and smart agents.</i></p>
 <p><img border="0" src="introImage.png" width="959" height="545"></p>
 <h1>tl;dr</h1>
-<p>Object oriented programming and relational databases have created the false 
-concept that context has data.&nbsp; In OOP, a class has fields, thus we think 
+<p>Object oriented programming and relational databases create a certain mental 
+model regarding how we think about data and its context--they both are oriented 
+around the idea that context has data.&nbsp; In OOP, a class has fields, thus we think 
 of the class as the context for the data.&nbsp; In an RDBMS, a table has columns 
 and again our thinking is oriented to the idea that the table is the context for 
 the data, the columns.&nbsp; Whether working with fields or record columns, 
 these entities get reduced to native types -- strings, integers, date-time 
-structures, etc.&nbsp; At that point, the data has lost all concept to what 
-context it belongs!&nbsp; Contextual data restores the data's knowledge of its 
-own context by preserving the context.&nbsp; This creates a bidirectional 
+structures, etc.&nbsp; At that point, the data has lost all concept as to what 
+context it belongs!&nbsp; Furthermore, thinking about context having data, while 
+technically accurate, can actually be quite the opposite of how we, as human 
+beings, think about data.&nbsp; To us, data is pretty much meaningless without 
+some context in which to understand the data. Strangely, we've ignored that 
+important point when creating programming languages and databases -- instead, 
+classes and tables, though they might be named for some context, are really 
+nothing more than containers. </p>
+<p>Contextual data restores the data's knowledge of its 
+own context by preserving the information that defines the context.&nbsp; This creates a bidirectional 
 relationship between context and data.&nbsp; The context knows what data <i>it 
 contains</i> and the data knows to what context <i>it belongs</i>.&nbsp; In this 
 article, I explore one approach to creating this bidirectional relationship -- a 
