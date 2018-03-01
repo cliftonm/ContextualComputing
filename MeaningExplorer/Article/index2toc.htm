@@ -48,7 +48,8 @@ contains</i> and the data knows to what context <i>it belongs</i>.&nbsp; In this
 article, I explore one approach to creating this bidirectional relationship -- a 
 declarative strongly typed relational contextual system using C#.&nbsp; Various 
 points of interest such as data types and context relationships (&quot;has a&quot;, &quot;is 
-a&quot;, &quot;related to&quot;) are explored.&nbsp; Issues with such a system, such as sharing 
+a&quot;, &quot;related to&quot;) are explored.&nbsp; Issues with such a system, such as 
+referencing 
 sub-contexts in different physical root-level contexts, are also discussed.</p>
 <h1>Contents</h1><ul>
 <li><a href="#ContextualDataExplorer0">Contextual Data Explorer</a></li>
@@ -1170,7 +1171,7 @@ route handler:</p>
 <p>URL:
 <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example12.EmployeeContext">
 http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example12.PersonContext</a></p>
-<p><img border="0" src="rendercontextEx1.png" width="581" height="282"></p>
+<p><img border="0" src="renderContextEx1.png" width="581" height="282"></p>
 <p>URL:
 <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example12.EmployeeContext">
 http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example12.ContactContext</a></p>
