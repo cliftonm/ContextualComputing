@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Contextual Data Explorer</title>
+</head>
+<body>
+    <h2>Contextual Data Explorer</h2>
+    <p>
+        <button onclick="post('/clearDictionary', {}, function nada() { })">Clear Dictionary</button>
+    </p>
+    <p>
+        <a href="http://localhost/dictionary">Show dictionary</a><br />
+        <a href="http://localhost/dictionary?showInstanceIds=true">Show dictionary with instance ID's</a>
+    </p>
+    <p>
+        <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example1.PersonNameContext">Example 1: Parsing and rendering PersonName</a><br />
+        <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example2.PersonContext">Example 2: Context with a "has a" relationship to other contexts</a><br />
+        <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example3.EmployeeContext">Example 3: Context with a "kind of" (abstraction) relationship to other contexts</a><br />
+        <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example4.EmployeeContext">Example 4: "has a" and abstraction together</a><br />
+        <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example5.EmployeeContext">Example 5: Coalescing an abstraction</a><br />
+        <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example6.EmployeeContext">Example 6: A named relationship between two contexts</a><br />
+        <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example7.EmployeeContext">Example 7: Defining the cardinality of the relationship</a><br />
+        <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example8.EmployeeContext">Example 8: Alternate declaration for example 7</a><br />
+        <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example9.EmployeeContext">Example 9: Where abstractions and relationships are declared is important</a><br />
+        <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example10.EmployeeContractContext">Example 10: "Or" and "And" relationships</a><br />
+        <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example11.EmployeeContractContext">Example 11: Detecting missing entity declarations (not in article)</a>
+    </p>
+    <p>
+        <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example12.EmployeeContext">Example 12-a: Employee context</a><br />
+        <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example12.AddressBookContext">Example 12-b: Address book context</a><br />
+        <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example12.PersonContext?&isSearch=true">Example 12-c: Searching by employee context</a><br />
+        <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example12.AddressBookContext&isSearch=true">Example 12-d: Searching by address book context</a>
+    </p>
+    <p>
+        <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example13.ParentContext">Example 13-a: Parent context with children as grid</a><br />
+        <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example13.ParentContext&isSearch=true">Example 13-b: Searching parent context</a>
+    </p>
+    <p>
+        <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example14.FatherContext">Example 14-a: Father context</a><br />
+        <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example14.MotherContext">Example 14-b: Mother context</a><br />
+        <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example12.AddressBookContext&isSearch=true">Example 14-c: Searching by child context</a>
+    </p>
+    <p>
+        <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example15.ChildContext">Example 15: Bottom-up child context</a><br />
+        <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example16.PersonContext">Example 16: Recursive contexts</a>
+    </p>
+    <p>
+        <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example17.FatherContext">Example 17-a: Father context with child lookup</a><br />
+        <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example17.MotherContext">Example 17-b: Mother context with child lookup</a><br />
+        <a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example17.PersonContext&isSearch=true">Example 17-c: Search Person context</a><br />
+    </p>
+
+</body>
+</html>
+<script>
+    function post(url, data, callback) {
+        return fetch(url, { method: "POST", body: JSON.stringify(data) }).then(function (response) {
+            return response.json();
+        }).then(function (jsonData) {
+            callback(jsonData);
+        });
+    }
+</script>
