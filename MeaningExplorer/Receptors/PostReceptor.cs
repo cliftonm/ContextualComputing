@@ -40,6 +40,12 @@ namespace MeaningExplorer.Receptors
 {
     public class PostReceptor : RouteHelpers, IReceptor
     {
+        public void Process(ISemanticProcessor proc, IMembrane membrane, ClearDictionary msg)
+        {
+            CreateOrGetContextValueDictionary(proc, msg.Context).Clear();
+            JsonResponse(proc, msg, new OKResponse());
+        }
+
         public void Process(ISemanticProcessor proc, IMembrane membrane, UpdateField msg)
         {
             ContextValueDictionary cvd = CreateOrGetContextValueDictionary(proc, msg.Context);

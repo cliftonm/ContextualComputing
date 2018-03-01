@@ -58,6 +58,12 @@ namespace Clifton.Meaning
             CVD = this;     // TODO: Remove this eventually, saving the cvd when the session terminates or some other mechanism.
         }
 
+        public void Clear()
+        {
+            tree.Clear();
+            flatView.Clear();
+        }
+
         public void Save()
         {
             // https://stackoverflow.com/questions/7397207/json-net-error-self-referencing-loop-detected-for-type

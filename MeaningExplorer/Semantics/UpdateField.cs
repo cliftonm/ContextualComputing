@@ -77,4 +77,6 @@ namespace MeaningExplorer.Semantics
     {
         public string InstancePath { get; set; }
     }
+
+    public class ClearDictionary : SemanticRoute { };
 }

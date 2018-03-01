@@ -173,6 +173,7 @@
   <ItemGroup>
     <Content Include="bin\Debug\css\styles.css" />
     <Content Include="bin\Debug\favicon.ico" />
+    <Content Include="bin\Debug\index.html" />
     <Content Include="bin\Debug\js\wireUpValueChangeNotifier.js" />
     <Content Include="bin\Debug\modules.xml" />
   </ItemGroup>

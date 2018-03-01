@@ -60,6 +60,11 @@ namespace Clifton.Meaning
             Type = t;
         }
 
+        public void Clear()
+        {
+            children.Clear();
+        }
+
         public void AddChild(ContextNode node)
         {
             children.Add(node);

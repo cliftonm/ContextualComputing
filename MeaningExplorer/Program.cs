@@ -56,7 +56,7 @@ namespace MeaningExplorer
             InitializeRoutes();
             RegisterRouteReceptors();
             StartWebServer();
-            new Explorer().InitializeHomePage();
+            // new Explorer().InitializeHomePage();
             Process.Start("chrome.exe", "localhost");
             Console.WriteLine("Press ENTER to exit...");
             Console.ReadLine();
@@ -96,6 +96,7 @@ namespace MeaningExplorer
             authRouter.RegisterSemanticRoute<RenderContext>("GET:renderContext", RouteType.PublicRoute);
             authRouter.RegisterSemanticRoute<SearchContext>("POST:searchContext", RouteType.PublicRoute);
             authRouter.RegisterSemanticRoute<ViewContext>("POST:viewContext", RouteType.PublicRoute);
+            authRouter.RegisterSemanticRoute<ClearDictionary>("POST:clearDictionary", RouteType.PublicRoute);
         }
 
         private static void RegisterRouteReceptors()

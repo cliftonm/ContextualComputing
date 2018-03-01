@@ -164,6 +164,8 @@ Because I'm leveraging a lot of my core library, the source code is not included
 here, only the DLL's.&nbsp; You can obtain my core library yourself though from
 <a href="https://github.com/cliftonm/clifton">
 https://github.com/cliftonm/clifton</a></p>
+<p>Since the demo implements a mini-server, you'll probably need to start Visual 
+Studio with &quot;Run as administrator.&quot;</p>
 <h2><a name="WhatIsContextualData5">What Is Contextual Data?</a></h2>
 <p>We start with some Google search results:</p>
 <p><i>Contextual data is used to provide more information and context about 
@@ -1482,7 +1484,8 @@ else
 <p>This ensures that the multiple recordsets of the context display their 
 correct values, as demonstrated here after searching for some pre-populated 
 data:</p>
-<p>URL: http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example13.ParentContext&amp;isSearch=true</p>
+<p>URL: 
+<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example13.ParentContext&isSearch=true">http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example13.ParentContext&amp;isSearch=true</a> </p>
 <p><img border="0" src="multirow2.png" width="426" height="621"></p>
 <h2><a name="TheFlawInContextRelationships31">The Flaw In Context Relationships</a></h2>
 <p>The flaw, at least in my implementation of contextual relationships, is that 
@@ -2163,6 +2166,9 @@ asynchronously.</p>
   }
 }</pre>
 <p>After selecting an existing child for the &quot;mother&quot; context:</p>
+<p>URL:
+<a href="http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example17.FatherContext">
+http://localhost/renderContext?ContextName=MeaningExplorer.Examples.Example17.MotherContext</a> </p>
 <p><img border="0" src="lookup4.png" width="297" height="204"></p>
 <p>We note that the dictionary now references the child created in the &quot;father&quot; 
 context:</p>
